@@ -15,9 +15,14 @@ import App from './App';
 import MyApp from './MyApp';
 import Pageview from './Pageview';
 import Animation from './Animation';
+import PanResponder from './PanResponder';
 export default class MyCalendar extends Component {
   render() {
-    return <Animation />
+    return (
+      <View style={styles.container}>
+        <PanResponder />
+      </View>
+    )
   }
 }
 
@@ -27,6 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    marginTop: 100
   },
   welcome: {
     fontSize: 20,
