@@ -16,11 +16,24 @@ import MyApp from './MyApp';
 import Pageview from './Pageview';
 import Animation from './Animation';
 import PanResponder from './PanResponder';
+import ComponentInteraction from './ComponentInteraction';
 export default class MyCalendar extends Component {
+  constructor(){
+    super()
+    this.state = {
+      index: 1
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({index: 2})
+    }, 2000)
+  }
   render() {
     return (
       <View style={styles.container}>
-        <PanResponder />
+        <Text>'index=='{this.state.index}</Text>
+        <ComponentInteraction {...this.state}/>
       </View>
     )
   }
