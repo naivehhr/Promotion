@@ -14,9 +14,10 @@ import {
 import App from './App';
 import MyApp from './MyApp';
 import Pageview from './Pageview';
+import Animation from './Animation';
 export default class MyCalendar extends Component {
   render() {
-    return <Pageview />
+    return <Animation />
   }
 }
 
