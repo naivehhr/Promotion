@@ -17,14 +17,14 @@ const o = Dimensions.get("window")
 const W = o.width
 const H = o.height
 const weekList = ['日','一','二','三','四','五','六']
-const weekListNum = [0, 1, 2, 3, 4, 5, 6]
+const weekListNum = [0, 1, 2, 3, 4, 5, 6] // 星期日 到 星期一
 class Calendar extends Component {
   constructor() {
     super()
     this.state = {
       toDay: '',
       week: 1, //星期几
-      dataList: []
+      dateList: []
     }
   }
   componentDidMount() {
@@ -36,100 +36,100 @@ class Calendar extends Component {
     let days = moment().daysInMonth() //当前月天数
     let day = moment().format('D') //当前月当天的日期
     let firstDayWeek = moment().subtract(6, 'days').format('d') // 当月第一天是星期几
-    console.log('今天星期==',firstDayWeek);
+    console.log('今天星期==',days);
 
-    //这里要调用几次renderRow
-    if(firstDayWeek == 0){
-      //正好一号是星期日，从头画
-    } else {
-      // let t = 7 - firstDayWeek
-      // let tList = weekListNum.slice(t)
-      // console.log(tList);
-    }
+    // this.calculate()
+    this.setState({dateList: this.calculate(firstDayWeek,days)})
 
-    //重新计算剩下的值
-
-    this.setState({dataList: this.calculate()})
-
-    // this.setState({
-    //   toDay: now,
-    //   week: moment().format('d'), // 星期几
-    // })
+    this.setState({
+      toDay: now,
+      week: moment().format('d'), // 星期几
+    })
   }
 
-  calculate(firstDayWeek = 3, totalDays = 10){
+  /**
+   * 计算日期数组
+   * @param  {[type]} firstDayWeek 本月第一天是星期几
+   * @param  {[type]} totalDays    本月多少天
+   * @return {[type]}              [description]
+   */
+  calculate(firstDayWeek = 3, totalDays = 30){
     let currentDay = 1 //一号
     let resultList = []
+    let autokey = -100
+    //前面追加空白
     for(let i = 0; i < firstDayWeek; i++) {
       let map = new Map()
-      map.set(-1, -1)
+      map.set(autokey, '填空')
       resultList.push(map)
+      autokey -= 1
     }
     while (currentDay <= totalDays) {
       let tList = weekListNum.slice(firstDayWeek, 7)
       tList.map((item, index) => {
         let map = new Map()
+        //后面追加空白
         if(currentDay > totalDays) {
-          map.set((-item).toString(), currentDay)
+          map.set(-item, '填空')
         } else {
           map.set(item, currentDay)
         }
         currentDay++
         resultList.push(map)
       })
-      firstDayWeek = 0
+      firstDayWeek = 0 //计算用，重置为星期日
     }
-    // console.log('resultList=',resultList.length);
-    return resultList
+    let ccc = []
+    for(let i=0,len=resultList.length;i<len;i+=7){
+       ccc.push(resultList.slice(i,i+7));
+    }
+    return ccc
   }
 
   renderRow() {
-    let map = new Map()
-    map.set('-3',-1)
-    map.set('-1',-1)
-    map.set('-32',-1)
-    map.set(3,1)
-    map.set(4,2)
-    map.set(5,3)
-    map.set(6,4)
-
-    let dataList = []
-    dataList.push(map)
+    const {dateList} = this.state
+    let dataList = dateList
     let _lenght = dataList.length
+    if(_lenght <= 0) true
     let tempView = []
     for(let i = 0; i < _lenght; i++){
       let _view = []
-      dataList[0].forEach((item, index) => {
+      dataList[i].forEach((item, index) => {
         let key = 'row' + index.toString()
-        if(parseInt(index) < 0) {
-         t = (
-           <View  key={key} style={{flex: 1, alignItems: 'center'}}>
-              <Item isNull={true}/>
-           </View>
-         )
-       } else {
-         t = (
-           <View  key={key} style={{flex: 1, alignItems: 'center'}}>
-             <Item date={item}/>
-           </View>
-         )
-       }
-       _view.push(t)
+        item.forEach((v, k) => {
+          if(parseInt(k) < 0) {
+           t = (
+             <View  key={key} style={{flex: 1,alignItems: 'center'}}>
+                <Item isNull={true}/>
+             </View>
+           )
+         } else {
+           t = (
+             <View  key={key} style={{flex: 1,alignItems: 'center'}}>
+               <Item date={item}/>
+             </View>
+           )
+         }
+         _view.push(t)
+        })
       })
-      let c = _view.map((item, index)=> {
-        return (
-          <View style={{flex: 1}}>
-            {item}
-          </View>
-        )
-      })
+      let c = (
+            <View style={{flexDirection:'row', flex: 1,height: 40}}>
+              {_view}
+            </View>
+          )
       tempView.push(c)
     }
-    console.log(tempView);
-    // return tempView.map((item, index)=>{
-    //   // console.log(item);
-    // })
-    return tempView
+    let p = tempView.length
+    return (
+      <View style={{
+        width: W,
+        height: 40 * p,
+        backgroundColor: 'white',
+      }}>
+        {tempView}
+      </View>
+    )
   }
 
   render() {
@@ -178,132 +178,31 @@ class Calendar extends Component {
             >
             {weekView}
           </View>
-          <View style={{
-            width: W,
-            height: 200,
-            backgroundColor: '#E066FF'
-          }}>
-            <View style={{
-                  width: W,
-                  height: 40,
-                  backgroundColor: 'white',
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}>
-              {this.renderRow()}
-            </View>
-          </View>
+          {this.renderRow()}
         </View>
       </View>
     )
   }
 }
 
-// class Header extends Component {
-//   constructor() {
-//     super()
-//   }
-//   render() {
-//     return(
-//       <View style={{
-//             height: 40,
-//             backgroundColor: 'red',
-//             flexDirection: 'row',
-//             alignItems: 'center'
-//           }}
-//         >
-//         <View style={{flex: 1, alignItems: 'flex-start', marginLeft: 10}}>
-//           <Text>上一月</Text>
-//         </View>
-//         <View style={{flex: 3, alignItems: 'center'}}>
-//           <Text>当前日期</Text>
-//         </View>
-//         <View style={{flex: 1, alignItems: 'flex-end', marginRight: 10}}>
-//           <Text>下一月</Text>
-//         </View>
-//       </View>
-//     )
-//   }
-// }
-
-// class Container extends Component {
-//   constructor() {
-//     super()
-//   }
-//   render() {
-//
-//     let weekView = weekList.map((item, index) => {
-//       return (
-//         <View style={{flex: 1, alignItems: 'center'}}>
-//           <Text>{item}</Text>
-//         </View>
-//       )
-//     })
-//
-//     let rowView = [1,2,3,4,5,6,7].map((item, index) => {
-//       return (
-//         <View style={{flex: 1, alignItems: 'center'}}>
-//           <Item />
-//         </View>
-//       )
-//     })
-//     return (
-//       <View>
-//         <View style={{
-//               width: W,
-//               height: 30,
-//               backgroundColor: 'yellow',
-//               flexDirection: 'row',
-//               alignItems: 'center'
-//             }}
-//           >
-//           {weekView}
-//         </View>
-//         <View style={{
-//           width: W,
-//           height: 200,
-//           backgroundColor: '#E066FF'
-//         }}>
-//           <View style={{
-//                 width: W,
-//                 height: 40,
-//                 backgroundColor: 'white',
-//                 flexDirection: 'row',
-//                 alignItems: 'center'
-//               }}>
-//             {rowView}
-//           </View>
-//         </View>
-//       </View>
-//     )
-//   }
-// }
-
-
 class Item extends Component {
   constructor() {
     super()
   }
+  // TODO:
+  // 添加点击回调 是否可以点击 点击的效果
+  // 传入具体时间 YYYY-MM-DD 这个可以父组件传递过来
+  //
   render() {
     const {isNull, date} = this.props
-    // if(isNull) {
-    //   return (
-    //     <View style={{
-    //       borderRadius:10,
-    //       height:20,width:20,
-    //       margin:1}}
-    //     >
-    //     </View>
-    //   )
-    // }
     return (
       <View style={{
-        borderRadius: 15,
-        height: 30,
-        width: 30,
+        borderRadius: 20,
+        height: 40,
+        width: 40,
         margin: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
       >
       <Text>{date}</Text>
