@@ -17,6 +17,8 @@ import Pageview from './Pageview';
 import Animation from './Animation';
 import PanResponder from './PanResponder';
 import ComponentInteraction from './ComponentInteraction';
+import AnimatedSquare from './AnimatedSquare';
+import Calendar from './Calendar';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -31,10 +33,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>'index=='{this.state.index}</Text>
-        <ComponentInteraction {...this.state}/>
-      </View>
+      <Calendar />
     )
   }
 }

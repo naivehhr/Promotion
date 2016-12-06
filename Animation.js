@@ -48,7 +48,7 @@ class Animation extends Component{
     // })
 
     //队列操作了
-    Animated.parallel([
+    let aa = Animated.parallel([
       Animated.spring(
         this.state.bounceValue,
         {
@@ -63,6 +63,9 @@ class Animation extends Component{
         easing: Easing.ease,
       }),
     ]).start()
+    setTimeout(() => {
+      console.log(this.aa);
+    },3000)
   }
 
   render() {
