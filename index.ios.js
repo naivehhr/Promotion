@@ -18,13 +18,16 @@ import Animation from './Animation';
 import PanResponder from './PanResponder';
 import ComponentInteraction from './ComponentInteraction';
 import AnimatedSquare from './AnimatedSquare';
-import Calendar from './Calendar';
+import Calendar, {title} from './Calendar';
+import Chart from './Chart';
+import MenuScreen from './MenuScreen';
 export default class MyCalendar extends Component {
   constructor(){
     super()
     this.state = {
       index: 1
     }
+    console.log(title);
   }
   componentDidMount() {
     setTimeout(() => {
@@ -33,7 +36,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <Calendar />
+      <Chart />
     )
   }
 }

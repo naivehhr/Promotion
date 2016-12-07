@@ -12,7 +12,8 @@
     "react-native": "0.39.0",
     "react-native-calendar": "^0.9.0",
     "react-native-calendar-picker": "^3.0.0",
-    "react-native-page-control": "^1.0.7"
+    "react-native-page-control": "^1.0.7",
+    "react-native-pathjs-charts": "0.0.21"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
