@@ -20,6 +20,8 @@ const W = o.width
 const H = o.height
 const weekList = ['日','一','二','三','四','五','六']
 const weekListNum = [0, 1, 2, 3, 4, 5, 6] // 星期日 到 星期一
+// const eventDay = {1: [1,2,3,4], 13: [3,4] }//模拟某天的事件
+// const eventDay = [{1: [1,2,3,4]}, {13: [3,4]} ]//模拟某天的事件
 const customerAnimation = {
   duration: 100,
     create: {
@@ -35,7 +37,7 @@ const customerAnimation = {
       property: LayoutAnimation.Properties.opacity,
     },
 }
-class Calendar extends Component {
+export default class Calendar extends Component {
   constructor() {
     super()
     this.state = {
@@ -48,7 +50,8 @@ class Calendar extends Component {
       dateList: [], //日期数组
       compareList: [], //存储日期和其选中状态
       selectDay: 1,
-      left: 0
+      left: 0,
+      events: []
     }
   }
 
@@ -70,7 +73,6 @@ class Calendar extends Component {
       //  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
        LayoutAnimation.easeInEaseOut();
        const dx = gs.dx
-       console.log(dx);
        if(dx < -50) {
          console.log('应该到下一页了');
          this._changeMonth('previous')
@@ -83,6 +85,9 @@ class Calendar extends Component {
      }
    })
    this.getDate(moment())
+   this.setState({
+     events: this.makeEventArr()
+   })
   }
 
   /**
@@ -117,7 +122,8 @@ class Calendar extends Component {
     // this.makeData()
     this.setState({
       dateList: this.calculate(firstDayWeek,days),
-      compareList: this.makeData()
+      compareList: this.makeData(),
+      events: this.makeEventArr()
     })
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
@@ -130,17 +136,36 @@ class Calendar extends Component {
   }
 
 
+  //设置选中日
   makeData(selectDay = this.state.selectDay) {
-    const {totalDays} = this.state
+    const {totalDays, events} = this.state
     let map = new Map()
     for(let i = 1; i <= totalDays; i++){
-      let key = false
+      let key = {}
+      key.isSelect = false
+      //添加当天事件
+      for(let [k, v] of events) {
+        if(k == i) {
+          key.event = v
+        }
+      }
+
+      //添加当天选中状态
       if(selectDay == i) {
-        key = true
+        key.isSelect = true
       }
       // console.log(key);
       map.set(i, key)
     }
+    return map
+  }
+
+  makeEventArr() {
+    // let c = [1,2].map((d, i)=>{
+    // })
+    let map = new Map()
+    map.set(1,[1,2,3,4])
+    map.set(12,[3,4])
     return map
   }
   /**
@@ -175,11 +200,11 @@ class Calendar extends Component {
       })
       firstDayWeek = 0 //计算用，重置为星期日
     }
-    let ccc = []
+    let splitArr = []
     for(let i=0,len=resultList.length;i<len;i+=7){
-       ccc.push(resultList.slice(i,i+7));
+       splitArr.push(resultList.slice(i,i+7));
     }
-    return ccc
+    return splitArr
   }
 
   _itemOnPress(date) {
@@ -226,7 +251,7 @@ class Calendar extends Component {
           // console.log('选中状态==', compareList.get(v));
           t = (
             <View  key={key} style={{flex: 1,alignItems: 'center'}}>
-               <Item isSelect={compareList.get(v)} onPress={this._itemOnPress.bind(this)} date={v} isNull={parseInt(k) < 0 ? true : false}/>
+               <Item status={compareList.get(v)} onPress={this._itemOnPress.bind(this)} date={v} isNull={parseInt(k) < 0 ? true : false}/>
             </View>
           )
          _view.push(t)
@@ -257,7 +282,9 @@ class Calendar extends Component {
   render() {
     const {
       toDay,
-      dataList
+      dataList,
+      events,
+      selectDay
     } = this.state
     // console.log('dataList==',dataList);
 
@@ -270,6 +297,40 @@ class Calendar extends Component {
       )
     })
 
+    let eventView = []
+    for(let [k, v] of events) {
+      if(k == selectDay) {
+        eventView = v.map((item, i) => {
+          let _color = '#FFB5C5'
+          switch (item) {
+            case 1:
+              _color = '#FFEC8B'
+            break;
+            case 2:
+              _color = '#FF7F24'
+              break;
+            case 3:
+              _color = '#FFB5C5'
+              break;
+            case 4:
+              _color = '#121212'
+              break;
+            default:
+
+          }
+          return (
+            <View key={selectDay + _color} style={{
+              width: 5,
+              height: 5,
+              backgroundColor: _color,
+              borderRadius: 2.5,
+              margin: 0.5,
+              marginTop: 10
+            }} />
+          )
+        })
+      }
+    }
     return (
       <View style={styles.container}>
         <View style={{
@@ -310,6 +371,10 @@ class Calendar extends Component {
           </View>
           {this.renderRow()}
         </View>
+        <View style={{margin: 10}}>
+          <Text>事件类型：</Text>
+          {eventView}
+        </View>
       </View>
     )
   }
@@ -344,20 +409,64 @@ class Item extends Component {
   // 传入具体时间 YYYY-MM-DD 这个可以父组件传递过来
   //
   render() {
-    const {isNull, date, onPress, isSelect} = this.props
+    const {isNull, date, onPress, status} = this.props
     // const {isSelect} = this.state
     // let c = [...date]
 
+    let _style = styles.itemDefault
+    let hasEvent = false
+    let eventView
+    if(status && status.isSelect) _style = styles.itemSelect
+    if(status && status.event && status.event.length > 0) {
+      hasEvent = true
+      eventView = status.event.map((item, i) => {
+        let _color = '#FFB5C5'
+        switch (item) {
+          case 1:
+            _color = '#FFEC8B'
+          break;
+          case 2:
+            _color = '#FF7F24'
+            break;
+          case 3:
+            _color = '#FFB5C5'
+            break;
+          case 4:
+            _color = '#121212'
+            break;
+          default:
+
+        }
+        return (
+          <View key={_color} style={{
+              width: 5,
+              height: 5,
+              backgroundColor: _color,
+              borderRadius: 2.5,
+              margin: 0.5
+            }} />
+        )
+      })
+    }
     return (
       <TouchableOpacity
-        style={isSelect ? styles.itemSelect : styles.itemDefault}
+        style={_style}
         onPress={this._onPress.bind(this,date)}
         activeOpacity={0.9}
       >
       {
         isNull ? null :
-        <Text >{date}</Text>
+        <View style={{alignItems: 'center'}}>
+          <Text >{date}</Text>
+          {
+            !hasEvent? null :
+            <View style={{flexDirection: 'row'}}>
+              {eventView}
+            </View>
+          }
+        </View>
       }
+
       </TouchableOpacity>
     )
   }
@@ -396,5 +505,7 @@ const styles = StyleSheet.create({
 
 
 // Calendar.Header = Header
-exports.title = 'Layout Animation';
-module.exports = Calendar
+// exports.title = 'Layout Animation';
+// module.exports = Item
+
+// export let Item = Item

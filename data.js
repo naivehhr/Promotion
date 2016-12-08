@@ -473,7 +473,7 @@ export default sampleData = {
         options: {
             width: 280,
             height: 280,
-            color: '#2980B9',
+            color: '#34495E',
             margin: {
                 top: 20,
                 left: 45,

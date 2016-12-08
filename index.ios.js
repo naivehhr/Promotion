@@ -18,25 +18,30 @@ import Animation from './Animation';
 import PanResponder from './PanResponder';
 import ComponentInteraction from './ComponentInteraction';
 import AnimatedSquare from './AnimatedSquare';
-import Calendar, {title} from './Calendar';
+import Calendar, {Item} from './Calendar';
 import Chart from './Chart';
 import MenuScreen from './MenuScreen';
+import Draw from './Draw';
+import ArtTest from './ArtTest';
+import SvgTest from './SvgTest';
+import MoveCircle from './MoveCircle';
 export default class MyCalendar extends Component {
   constructor(){
     super()
     this.state = {
       index: 1
     }
-    console.log(title);
   }
   componentDidMount() {
     setTimeout(() => {
       this.setState({index: 2})
     }, 2000)
+
+    // console.log('--',Item);
   }
   render() {
     return (
-      <Chart />
+      <ArtTest />
     )
   }
 }
