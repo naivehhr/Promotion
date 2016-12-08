@@ -22,11 +22,10 @@ import Calendar, {Item} from './Calendar';
 import Chart from './Chart';
 import MenuScreen from './MenuScreen';
 import Draw from './Draw';
-import ArtTest from './ArtTest';
-import SvgTest from './SvgTest';
+// import ArtTest from './ArtTest';
+// import SvgTest from './SvgTest';
 import MoveCircle from './MoveCircle';
 import QTest from './QTest';
-import root from './root';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -67,5 +66,3 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-
-AppRegistry.registerComponent('MyCalendar', () => root);
