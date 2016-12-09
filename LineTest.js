@@ -1,0 +1,190 @@
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  PanResponder,
+} from 'react-native';
+
+import Line from './source/line'
+import * as helper from './source/helper'
+const Width = Dimensions.get('window').width
+const Height = Dimensions.get('window').height
+const Top = (Height - Width)/2.0 * 1.5
+const Radius = Width / 10
+class LineTest extends Component {
+
+  constructor(){
+    super()
+    this.state = {
+      lines: []
+    }
+    this.isMoving = false;
+  }
+
+  componentWillMount() {
+        this._panResponder = PanResponder.create({
+            // 要求成为响应者：
+            onStartShouldSetPanResponder: (event, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+            onMoveShouldSetPanResponder: (event, gestureState) => true,
+            onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+
+            // 开始手势操作
+            onPanResponderGrant: (event, gestureState) => {
+                this.onStart(event, gestureState);
+            },
+            // 移动操作
+            onPanResponderMove: (event, gestureState) => {
+                this.onMove(event, gestureState);
+            },
+            // 释放手势
+            onPanResponderRelease: (event, gestureState) => {
+                this.onEnd(event, gestureState);
+            }
+        })
+    }
+
+    componentDidMount() {
+      let x = 100
+      let y = 50
+      // setInterval(()=> {
+      //   this.refs.line.setNativeProps({end: {x, y}});
+      //   x++
+      //   y++
+      // })
+    }
+
+    componentWillUpdate() {
+      console.log('update');
+    }
+
+    onStart(e, g) {
+        let x = e.nativeEvent.pageX;
+        let y = e.nativeEvent.pageY - Top;
+        this.isMoving = true;
+        // let lastChar = this.getTouchChar({x, y});
+        // if ( lastChar ) {
+        //     this.isMoving = true;
+        //     this.lastIndex = Number(lastChar);
+        //     this.sequence = lastChar;
+        //     this.resetActive();
+        //     this.setActive(this.lastIndex);
+        //
+        //     let point = {
+        //         x: this.state.circles[this.lastIndex].x,
+        //         y: this.state.circles[this.lastIndex].y
+        //     };
+        //
+        //     this.refs.line.setNativeProps({start: point, end: point});
+        //
+        //     this.props.onStart && this.props.onStart();
+        //
+        //     if ( this.props.interval>0 ) {
+        //         clearTimeout(this.timer);
+        //     }
+        // }
+    }
+
+    onMove(e, g) {
+        let x = e.nativeEvent.pageX;
+        let y = e.nativeEvent.pageY - Top;
+
+        if ( this.isMoving ) {
+            this.refs.line.setNativeProps({end: {x, y}});
+            // let lastChar = null;
+            //
+            // if ( !helper.isPointInCircle({x, y}, this.state.circles[this.lastIndex], Radius) ) {
+            //     lastChar = this.getTouchChar({x, y});
+            // }
+            //
+            // if ( lastChar && this.sequence.indexOf(lastChar) === -1 ) {
+            //     if ( !this.props.allowCross ) {
+            //         let crossChar = this.getCrossChar(lastChar);
+            //
+            //         if ( crossChar && this.sequence.indexOf(crossChar) === -1 ) {
+            //             this.sequence += crossChar;
+            //             this.setActive(Number(crossChar));
+            //         }
+            //     }
+            //
+            //     let lastIndex = this.lastIndex;
+            //     let thisIndex = Number(lastChar);
+            //
+            //     this.state.lines.push({
+            //         start: {
+            //             x: this.state.circles[lastIndex].x,
+            //             y: this.state.circles[lastIndex].y
+            //         },
+            //         end: {
+            //             x: this.state.circles[thisIndex].x,
+            //             y: this.state.circles[thisIndex].y
+            //         }
+            //     });
+            //
+            //     this.lastIndex = Number(lastChar);
+            //     this.sequence += lastChar;
+            //
+            //     this.setActive(this.lastIndex);
+            //
+            //     let point = {
+            //         x: this.state.circles[this.lastIndex].x,
+            //         y: this.state.circles[this.lastIndex].y
+            //     };
+            //
+            //     this.refs.line.setNativeProps({start: point});
+            // }
+        }
+
+        // if ( this.sequence.length === 9 ) this.onEnd();
+    }
+
+    onEnd(e, g) {
+        if ( this.isMoving ) {
+            // let password = helper.getRealPassword(this.sequence);
+            // this.sequence = '';
+            // this.lastIndex = -1;
+            this.isMoving = false;
+
+            let origin = {x: 0, y: 0};
+            this.refs.line.setNativeProps({start: origin, end: origin});
+
+            this.props.onEnd && this.props.onEnd(password);
+
+            // if ( this.props.interval>0 ) {
+            //     this.timer = setTimeout(() => this.resetActive(), this.props.interval);
+            // }
+        }
+    }
+
+  render() {
+    return (
+      <View style={styles.container} {...this._panResponder.panHandlers}>
+        <Line ref='line' color={'red'}/>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
+module.exports = LineTest

@@ -26,6 +26,8 @@ import Draw from './Draw';
 // import SvgTest from './SvgTest';
 import MoveCircle from './MoveCircle';
 import QTest from './QTest';
+import PasswordGestureTest from './PasswordGestureTest';
+import LineTest from './LineTest';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -42,7 +44,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <QTest />
+      <LineTest />
     )
   }
 }
