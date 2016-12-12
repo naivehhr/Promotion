@@ -28,6 +28,10 @@ import MoveCircle from './MoveCircle';
 import QTest from './QTest';
 import PasswordGestureTest from './PasswordGestureTest';
 import LineTest from './LineTest';
+import EasingTest from './EasingTest';
+import LoadingView from './LoadingView';
+import AnimatedSquareMove from './AnimatedSquareMove';
+import ScrollViewAnimation from './ScrollViewAnimation';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -44,7 +48,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <LineTest />
+      <ScrollViewAnimation />
     )
   }
 }

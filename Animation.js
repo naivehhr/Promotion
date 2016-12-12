@@ -33,6 +33,11 @@ class Animation extends Component{
   }
 
   componentWillMount() {
+    this._opacityAnimationValue = new Animated.Value(1);
+    this._moveAnimationValue = new Animated.ValueXY();
+    this._animatedValue = new Animated.ValueXY()
+    this._value = {x: 0, y: 0}
+    this._animatedValue.addListener((value) => this._value = value);
     this._panResponder = PanResponder.create({
         // 要求成为响应者：
         onStartShouldSetPanResponder: (event, gestureState) => true,
@@ -60,8 +65,8 @@ class Animation extends Component{
   }
 
   onMove(e, g) {
-    let x = e.nativeEvent.pageX /10;
-    let y = e.nativeEvent.pageY /10;
+    let x = e.nativeEvent.pageX /5;
+    let y = e.nativeEvent.pageY /5;
     this.setState({
       x: x,
       y: y
@@ -104,14 +109,22 @@ class Animation extends Component{
         easing: Easing.ease,
       }),
     ]).start()
-    setTimeout(() => {
-      // console.log(this.aa);
-    },3000)
+    Animated.stagger(100, [
+      Animated.timing(this._moveAnimationValue, {
+          toValue: 100,
+          duration: 500
+      }),
+      Animated.timing(this._opacityAnimationValue, {
+          toValue: 0,
+          duration: 200
+      })
+  ]).start()
   }
 
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'red'}} {...this._panResponder.panHandlers}>
+        <Animated.View style={{width:100,height:100,backgroundColor: 'blue',opacity: this._opacityAnimationValue, transform: this._moveAnimationValue.getTranslateTransform()}} />
         <Animated.Image
          source={require('./1.jpg')}
           style={{
