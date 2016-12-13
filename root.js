@@ -32,6 +32,9 @@ import EasingTest from './EasingTest';
 import LoadingView from './LoadingView';
 import AnimatedSquareMove from './AnimatedSquareMove';
 import ScrollViewAnimation from './ScrollViewAnimation';
+import AnimationNumber from './AnimationNumber';
+import PulseChart from './PulseChart';
+import ScrollViewAnimationTest from './ScrollViewAnimationTest';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -48,7 +51,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <ScrollViewAnimation />
+      <ScrollViewAnimationTest />
     )
   }
 }

@@ -64,6 +64,7 @@ class Animation extends Component{
 
   }
 
+  //http://www.alloyteam.com/2016/01/reactnative-animated/
   onMove(e, g) {
     let x = e.nativeEvent.pageX /5;
     let y = e.nativeEvent.pageY /5;
@@ -98,7 +99,7 @@ class Animation extends Component{
       Animated.spring(
         this.state.bounceValue,
         {
-          toValue: 0.8,
+          toValue: 0.1,
           friction: 1
         }
       ),
@@ -142,6 +143,10 @@ class Animation extends Component{
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#F5FCFF',
+            marginLeft: this.state.bounceValue.interpolate({
+            inputRange: [-1, -0.5, 0.5, 1],
+            outputRange: [0, 5, 0, 5]
+          }),
             transform: [{translateX: this.state.x}, {translateY: this.state.y}, {rotateZ: '1rad'}]
           }}
         />

@@ -20,7 +20,7 @@ class Line extends Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         let { start, end, color } = this.state;
 
         if ( isEquals(start, end) ) return null;

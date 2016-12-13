@@ -14,47 +14,84 @@ const Width = Dimensions.get('window').width
 const Height = Dimensions.get('window').height
 const Top = (Height - Width)/2.0 * 1.5
 const Radius = Width / 10
+
+const points = [{x: 0, y: 100},{x: 10, y: 0}]
 class LineTest extends Component {
 
   constructor(){
     super()
     this.state = {
-      lines: []
+      // lines: []
     }
     this.isMoving = false;
   }
 
   componentWillMount() {
-        this._panResponder = PanResponder.create({
-            // 要求成为响应者：
-            onStartShouldSetPanResponder: (event, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (event, gestureState) => true,
-            onMoveShouldSetPanResponder: (event, gestureState) => true,
-            onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+    this._panResponder = PanResponder.create({
+      // 要求成为响应者：
+      onStartShouldSetPanResponder: (event, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+      onMoveShouldSetPanResponder: (event, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+      // 开始手势操作
+      onPanResponderGrant: (event, gestureState) => {
+          this.onStart(event, gestureState);
+      },
+      // 移动操作
+      onPanResponderMove: (event, gestureState) => {
+          this.onMove(event, gestureState);
+      },
+      // 释放手势
+      onPanResponderRelease: (event, gestureState) => {
+          this.onEnd(event, gestureState);
+      }
+    })
+  }
 
-            // 开始手势操作
-            onPanResponderGrant: (event, gestureState) => {
-                this.onStart(event, gestureState);
-            },
-            // 移动操作
-            onPanResponderMove: (event, gestureState) => {
-                this.onMove(event, gestureState);
-            },
-            // 释放手势
-            onPanResponderRelease: (event, gestureState) => {
-                this.onEnd(event, gestureState);
-            }
-        })
-    }
+
 
     componentDidMount() {
-      let x = 100
-      let y = 50
+      // let x = points[0].x
+      // let y = points[0].y
       // setInterval(()=> {
       //   this.refs.line.setNativeProps({end: {x, y}});
       //   x++
       //   y++
       // })
+
+      let lines = this.markLines()
+      lines.forEach((item) => {
+        this.markDraw(item.start, item.end)
+      })
+    }
+
+    markLines() {
+      let _lines= []
+      for(let i = 0; i < points.length - 1; i ++){
+        _lines.push({start: points[i], end: points[i + 1]})
+      }
+      console.log(_lines);
+      return _lines
+    }
+    markDraw(start, end) {
+      // let start = points[i]
+      // let end = points[i + 1]
+      let s_x = start.x
+      let s_y = start.y
+      let e_x= end.x
+      let e_y = end.y
+      let scaleY = Math.abs(e_y - e_x) / 10
+      this.refs.line.setNativeProps({start: {x: s_x, y: s_y}});
+      this._interval = setInterval(()=> {
+        if(s_x > e_x) {
+          clearInterval(this._interval)
+
+        }
+        this.refs.line.setNativeProps({end: {x: s_x, y: s_y}});
+        s_x = s_x + 1
+        s_y = s_y + scaleY
+      })
+
     }
 
     componentWillUpdate() {
@@ -65,6 +102,7 @@ class LineTest extends Component {
         let x = e.nativeEvent.pageX;
         let y = e.nativeEvent.pageY - Top;
         this.isMoving = true;
+
         // let lastChar = this.getTouchChar({x, y});
         // if ( lastChar ) {
         //     this.isMoving = true;
@@ -160,6 +198,9 @@ class LineTest extends Component {
     }
 
   render() {
+    // React.createElement(View, {
+    //   style: {left:100, top: 100, width:100,height: 100, backgroundColor: 'red',position: 'absolute' },
+    // })
     return (
       <View style={styles.container} {...this._panResponder.panHandlers}>
         <Line ref='line' color={'red'}/>
