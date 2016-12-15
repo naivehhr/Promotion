@@ -13,6 +13,15 @@ import {
 const o = Dimensions.get("window")
 const W = o.width
 const H = o.height
+
+import Dr from './Dr'
+import Dk from './Dk'
+
+
+// TODO: 如果用scrollview也可以实现, 基本上也是手势
+// https://github.com/facebook/react-native/blob/d56530d7d5f20f84c45a7187ce564c03a023c6ae/Libraries/Components/ScrollView/ScrollView.js
+// onMomentumScrollBegin={this._onMomentumScrollBeginAndEnd}
+// onMomentumScrollEnd={this._onMomentumScrollBeginAndEnd}
 class Pageview extends Component {
   constructor() {
     super()

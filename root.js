@@ -35,6 +35,9 @@ import ScrollViewAnimation from './ScrollViewAnimation';
 import AnimationNumber from './AnimationNumber';
 import PulseChart from './PulseChart';
 import ScrollViewAnimationTest from './ScrollViewAnimationTest';
+import TabViewExample from './TabViewExample';
+import Home from './Home';
+import Refresh from './Refresh';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -51,7 +54,7 @@ export default class MyCalendar extends Component {
   }
   render() {
     return (
-      <ScrollViewAnimationTest />
+      <Refresh />
     )
   }
 }
