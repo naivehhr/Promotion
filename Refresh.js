@@ -38,15 +38,26 @@ class Refresh extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{
-            height: 80,
-            width: W,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'white'}}>
-            <Text>HEADER</Text>
-        </View>
-        <MyScrollView />
+        <Header />
+        <Text>dadsf</Text>
+      </View>
+    );
+  }
+}
+class Header extends Component {
+  render() {
+    return (
+      <View style={{
+          position: 'absolute',
+          height: 80,
+          width: W,
+          top:0,
+          left:0,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'blue',
+        }}>
+          <Text style={{color: 'white'}}>HEADER</Text>
       </View>
     );
   }
@@ -61,7 +72,10 @@ class MyScrollView extends Component {
       lastPY: 0,
       dy: 0
     }
-    this.currentPosition = 0
+    this.currentPosition = 0 //中间量
+    this.endPosition = 0 // 手势结束时Y坐标
+    this.startPosotion = 0 //手势开始时Y坐标
+    this._dy = 0 // 上一个偏移量
   }
   componentWillMount() {
     // this._opacityAnimationValue = new Animated.Value(1);
@@ -88,56 +102,61 @@ class MyScrollView extends Component {
   }
 
   onStart(e, g) {
-    let dy = g.dy
+    this.block = true
+    console.log('start startPosotion', this.startPosotion);
     this.refs._scrollView.setNativeProps({
-      style:{marginTop: this.lastPY}
+      style:{marginTop: this.startPosotion}
     })
   }
 
   //http://www.alloyteam.com/2016/01/reactnative-animated/
+  // 下面的方向性代码先不动
   onMove(e, g) {
-    console.log('y',g.dy)
-    console.log('currentPosition',this.currentPosition)
-
-    let dy = g.dy
-
-    console.log('newPoosition',this.currentPosition);
-
-
-    if(this.currentPosition >= 0) {
-      console.log('展开状态');
-      if(dy <= this.currentPosition){
-        console.log('展开-');
-      } else {
+    console.log('g.dy',g.dy);
+    if(this.startPosotion >= 0) {
+      let key = g.dy - this._dy
+      console.log('key',key);
+      if(key >= 0) {
         console.log('展开+');
-        // this.currentPosition = this.currentPosition + dy
-        // this.refs._scrollView.setNativeProps({
-        //   style:{marginTop: newPoosition}
-        // })
-      }
-    } else {
-      console.log('收缩状态');
-      if(dy >= this.currentPosition) {
-        console.log('收缩-');
+        this.startPosotion = this.startPosotion + key
       } else {
+        this.startPosotion = this.startPosotion + key
+        console.log('展开-');
+      }
+      this.refs._scrollView.setNativeProps({
+        style:{marginTop: this.startPosotion}
+      })
+      this._dy = g.dy
+    } else {
+      let key = g.dy - this._dy
+      console.log('key',key);
+      if(key >= 0) {
+        console.log('收缩-');
+        this.startPosotion = this.startPosotion + key
+      } else {
+        this.startPosotion = this.startPosotion + key
         console.log('收缩+');
       }
+      this.refs._scrollView.setNativeProps({
+        style:{marginTop: this.startPosotion}
+      })
+      this._dy = g.dy
     }
-    // this.currentPosition = newPoosition
+
+    console.log('move startPosotion', this.startPosotion);
   }
   onEnd(e, g) {
-
-    // this.refs._scrollView.setNativeProps({
-    //   scrollEnabled: false
-    // })
-    // this.refs._scrollView.scrollTo({y: -g.dy})
-    // console.log(this.refs);
+    this._dy = 0
   }
 
 
   render() {
     return (
-      <View style={{flex: 1}} >
+      <View style={{
+          flex: 1,
+          width: W,
+          height: 300
+        }} >
         <View style={{
             position: 'absolute',
             width: W,
@@ -150,12 +169,13 @@ class MyScrollView extends Component {
         <ScrollView
            ref={'_scrollView'}
           {...this._panResponder.panHandlers}
-          contentContainerStyle={{flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'black',}}
-          bounces={false}
-        >
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'black',}}
+            bounces={false}
+          >
             <Text>12312</Text>
         </ScrollView>
       </View>
