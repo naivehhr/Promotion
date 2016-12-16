@@ -38,6 +38,7 @@ import ScrollViewAnimationTest from './ScrollViewAnimationTest';
 import TabViewExample from './TabViewExample';
 import Home from './Home';
 import Refresh from './Refresh';
+import PullToRefreshLayout from './PullToRefreshLayout';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -52,6 +53,41 @@ export default class MyCalendar extends Component {
 
     // console.log('--',Item);
   }
+  onRefresh() {
+
+  }
+  // render() {
+  //   return (
+  //     <View>
+  //       <View style={{
+  //           height: 80,
+  //           width: 400,
+  //           alignItems: 'center',
+  //           justifyContent: 'center',
+  //           backgroundColor: 'blue',
+  //         }}>
+  //           <Text style={{color: 'white'}}>HEADER</Text>
+  //       </View>
+  //       <PullToRefreshLayout ref={'fff'} style={{flex:1,}} onRefresh={this.onRefresh.bind(this)}>
+  //         <View style={{flex:1, backgroundColor: 'red'}}>
+  //           <View style={{width: 400, height: 50}}>
+  //             <Text>asdfasdfasd</Text>
+  //           </View>
+  //           <View style={{width: 400, height: 50}}>
+  //             <Text>asdfasdfasd</Text>
+  //           </View>
+  //           <View style={{width: 400, height: 50}}>
+  //             <Text>asdfasdfasd</Text>
+  //           </View>
+  //           <View style={{width: 400, height: 50}}>
+  //             <Text>asdfasdfasd</Text>
+  //           </View>
+  //         </View>
+  //       </PullToRefreshLayout>
+  //     </View>
+  //   )
+  // }
+
   render() {
     return (
       <Refresh />

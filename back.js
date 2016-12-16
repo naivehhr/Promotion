@@ -66,9 +66,9 @@ class MyScrollView extends Component {
     super()
     this.state = {
       isRefreshing: false,
-      bounceValue: new Animated.Value(0),
     }
-    this.startPosotion = 0 //手势开始时Y坐标
+    this.bounceValue = new Animated.Value(0),
+    this.startPosotion = -50 //手势开始时Y坐标
     this._dy = 0 // 上一个偏移量
   }
   componentWillMount() {
@@ -88,26 +88,38 @@ class MyScrollView extends Component {
           this.onEnd(event, gestureState);
       }
     })
+
+
+    // this.bounceValue.addListener({
+    //   onSpringUpdate: () => {
+    //     this.setState({scale: this._scrollSpring.getCurrentValue()});
+    //   },
+    // });
+    this.bounceValue.addListener((v) => {
+      this.startPosotion = v.value
+    })
   }
 
   componentDidMount() {
-    this.state.bounceValue.setValue(-50);
+    this.bounceValue.setValue(-50);
   }
   onStart(e, g) {
     console.log('start startPosotion', this.startPosotion);
+
     // this.refs._content.setNativeProps({
     //   style:{marginTop: this.startPosotion}
     // })
-    this.state.bounceValue.setValue(this.startPosotion);
+
+    // this.bounceValue.setValue(this.startPosotion);
   }
 
   //http://www.alloyteam.com/2016/01/reactnative-animated/
   onMove(e, g) {
     console.log('g.dy',g.dy);
-    // if(g.dy > 100 || g.dy < -100) return
+    // if(g.dy > 100) return
     let key = g.dy - this._dy
     this.startPosotion = this.startPosotion + key
-    this.state.bounceValue.setValue(this.startPosotion);
+    this.bounceValue.setValue(this.startPosotion);
     this._dy = g.dy
     return
 
@@ -159,11 +171,28 @@ class MyScrollView extends Component {
 
   onEnd(e, g) {
     this._dy = 0
+    let easing = Easing.in(Easing.quad)
+    if(this.startPosotion > 10) {
+      // this.startPosotion = 0
+      // this.state.bounceValue.setValue(this.startPosotion);
+      this.bounceValue.setValue(this.startPosotion)
+      Animated.timing(
+        this.bounceValue,
+        {
+          toValue: -50,
+          duration: 500,
+          easing
+        }
+      ).start(() => {
+        this.startPosotion = -50
+      })
+
+    }
   }
 
 
   renderRow() {
-    let a = [1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6].map((item, index) => {
+    let a = [1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9,1].map((item, index) => {
       return (
         <View key={'_item' + index} style={{height: 100,
             backgroundColor:index% 2== 0? 'yellow': 'green',
@@ -177,11 +206,7 @@ class MyScrollView extends Component {
         ref={'_content'}
         style={{
           flex:1,
-          marginTop: this.state.bounceValue.interpolate({
-            inputRange: [-500,-100,-45,-15,-5,0,10,50,75,100],
-            outputRange: [-125,-125,-50,-50,-50,-50,-40,-30,0,12],
-            extrapolate: 'clamp'
-          }),
+          marginTop: this.bounceValue,
         }}>
         {a}
         <View style={{
