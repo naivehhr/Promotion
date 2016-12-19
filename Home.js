@@ -20,24 +20,37 @@ import DefaultTabBar from './DefaultTabBar'
 
 import Dr from './Dr'
 import Dk from './Dk'
+import FirstPageComponent from './FirstPageComponent'
+import SecondPageComponent from './SecondPageComponent'
+import NavTest from './NavTest'
 
-class Home extends Component {
+export default class Home extends Component {
   constructor() {
     super()
+    this.state = {
+      _marBot: 0
+    }
+  }
+  componentDidMount() {
+    // setTimeout(() => {
+    //   this.setState({_marBot: -50})
+    // },2000)
+    // console.log(this.props);
   }
 
   render() {
+    const { navigator, route } = this.props
    return (
      <ScrollableTabView
       tabBarPosition={'bottom'}
       locked={false}
       scrollWithoutAnimation={false}
       onChangeTab={(i) => console.log('onChangeTabonChangeTab', i)}
-      renderTabBar={() => <DefaultTabBar />}
+      renderTabBar={() => <DefaultTabBar style={{marginBottom : this.state._marBot}}/>}
       prerenderingSiblingsNumber={1}
      >
-       <Dr ref='Dr' tabLabel="Dr" />
-       <Dk ref='Dk' tabLabel="Dk" />
+       <FirstPageComponent ref='FirstPageComponent' tabLabel="FirstPageComponent" {...this.props}/>
+       <SecondPageComponent ref='SecondPageComponent' tabLabel="SecondPageComponent"  {...this.props}/>
      </ScrollableTabView>
    );
  }
@@ -49,7 +62,7 @@ class MyTabBar extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   render(){

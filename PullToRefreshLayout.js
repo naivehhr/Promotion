@@ -13,7 +13,7 @@ import {
     AsyncStorage,
     Image
 } from 'react-native';
-
+// 参考
 let self;
 /**ref的引用*/
 const PULL_REFRESH_LAYOUT="pullLayout";

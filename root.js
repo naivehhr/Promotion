@@ -11,6 +11,11 @@ import {
   Text,
   View
 } from 'react-native';
+
+import { Provider } from 'react-redux';
+import ConfigureStore from './store/configureStore'
+const store = ConfigureStore()
+
 import App from './App';
 import MyApp from './MyApp';
 import Pageview from './Pageview';
@@ -39,6 +44,7 @@ import TabViewExample from './TabViewExample';
 import Home from './Home';
 import Refresh from './Refresh';
 import PullToRefreshLayout from './PullToRefreshLayout';
+import NavTest from './NavTest';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -90,7 +96,9 @@ export default class MyCalendar extends Component {
 
   render() {
     return (
-      <Refresh />
+      <Provider store={store}>
+        <NavTest />
+      </Provider>
     )
   }
 }
