@@ -12,6 +12,14 @@ const reducer = combineReducers(reducers);
 
 
 export default function ConfigureStore() {
+  if (!__DEV__) {
+    global.console = {
+      info: () => {},
+      log: () => {},
+      warn: () => {},
+      error: () => {},
+    };
+  }
   const store = createStoreWithMiddleware(reducer);
   return store;
 }

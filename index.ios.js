@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import App from './App';
+// import App from './App';
 import MyApp from './MyApp';
 import Pageview from './Pageview';
 import Animation from './Animation';
@@ -27,6 +27,8 @@ import SvgTest from './SvgTest';
 import MoveCircle from './MoveCircle';
 import QTest from './QTest';
 import root from './root';
+
+import App from './app/app';
 export default class MyCalendar extends Component {
   constructor(){
     super()
@@ -68,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('MyCalendar', () => root);
+AppRegistry.registerComponent('MyCalendar', () => App);

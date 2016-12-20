@@ -11,3 +11,9 @@ export function hide() {
     type: types.TBA_HIDE
   };
 }
+
+export function change() {
+  return {
+    type: types.TBA_CHANGE
+  };
+}

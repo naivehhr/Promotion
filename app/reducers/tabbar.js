@@ -5,14 +5,19 @@ const initialState = {
 };
 
 export default function tabbar(state = initialState, action = {}) {
+  console.log(action.type);
   switch (action.type) {
     case types.TBA_SHOW:
       return {
         ...state,
-        show: !state.show
+        show: true
       };
     case types.TBA_HIDE:
-      console.log('隐藏！');
+      return {
+        ...state,
+        show: false
+      }
+    case types.TBA_CHANGE:
       return {
         ...state,
         show: !state.show
