@@ -7,17 +7,13 @@ export const navTo = (to, from) => {
     //   this.props.dispatch(show())
     // }
     const currentRoute = nav.navigator.getCurrentRoutes().pop()
-    if(currentRoute.name == 'Home' && to.name !== 'Home') {
+    if(currentRoute.name == 'Dk' && to.name !== 'Dk') {
       dispatch(hide())
-    } else if(currentRoute.name !== 'Home' && to.name == 'Home'){
-      //这个pop得单写
     }
-    setTimeout(() => {
-      nav.navigator.push({
-        name: to.name,
-        component: to.Component,
-      })
-    },300)
+    nav.navigator.push({
+      name: to.name,
+      component: to.Component,
+    })
   }
 }
 

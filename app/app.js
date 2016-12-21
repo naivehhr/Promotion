@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 
 
 import Index from './containers/Index';
+import Go from './containers/Go';
 
 
 import ConfigureStore from './store/configureStore'
@@ -26,7 +27,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Index />
+        <Go />
       </Provider>
     )
   }

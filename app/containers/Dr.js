@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { connect } from 'react-redux'
 class Dr extends Component {
   constructor() {
     super()
@@ -21,17 +22,33 @@ class Dr extends Component {
 
   componentDidMount() {
     console.log('加载','Dr');
-    
+
   }
 
   componentWillUnmount() {
     console.log('卸载','Dr');
   }
+  _pressButton() {
+    const { nav, route, dispatch } = this.props
+    // console.log(nav);
+    nav.navigator.pop()
+  }
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'yellow'}}/>
+      <ScrollView contentContainerStyle={{flex: 1,backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
+          <TouchableOpacity onPress={this._pressButton.bind(this)} >
+              <Text>Dr 点我跳回去</Text>
+          </TouchableOpacity>
+      </ScrollView>
     );
   }
 }
 
-module.exports = Dr
+const mapStateToProps = state => {
+  // console.log(state);
+  return {
+    tabbar : state.tabbar,
+    nav: state.nav
+  }
+}
+module.exports = connect(mapStateToProps)(Dr)

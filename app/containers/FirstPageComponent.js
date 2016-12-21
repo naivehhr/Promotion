@@ -22,14 +22,24 @@ export default class FirstPageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.props.route.title = '首页'
+        // this.props.route.title = '首页'
         // console.log('PagesConfig',PagesConfig);
     }
 
+    componentDidMount() {
+      // console.log(this.props);
+      // const { navigator, route } = this.props
+      // this.props.dispatch(nav_initial(navigator, route))
+    }
 
     _pressButton() {
-      const { navigator, dispatch } = this.props;
-      dispatch(navTo(PagesConfig.SecondPageComponent))
+      const { dispatch ,navigator} = this.props;
+      // dispatch(navTo(PagesConfig.SecondPageComponent))
+      // dispatch(navTo(PagesConfig.PageOne))
+      navigator.push({
+        name: 'SecondPageComponent',
+        component: SecondPageComponent,
+      })
       //为什么这里可以取得 props.navigator?请看上文:
       //<Component {...route.params} navigator={navigator} />
       //这里传递了navigator作为props
@@ -71,7 +81,8 @@ export default class FirstPageComponent extends Component {
 const mapStateToProps = state => {
   // console.log(state);
   return {
-    tabbar : state.tabbar
+    tabbar : state.tabbar,
+    nav: state.nav
   }
 }
 module.exports = connect(mapStateToProps)(FirstPageComponent)

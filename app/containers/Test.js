@@ -21,21 +21,23 @@ import FirstPageComponent from './FirstPageComponent'
 import SecondPageComponent from './SecondPageComponent'
 import PageTwo from './PageTwo'
 import PageOne from './PageOne'
+import Dk from './Dk'
+import Dr from './Dr'
 import Home from './Home'
 import { connect } from 'react-redux'
 import {show, hide, change} from '../actions/tabbarActions'
-class Index extends Component {
+class Test extends Component {
 
   renderScene( route, nav ) {
-    // setTimeout(() => {
-    //   const currentRoute = nav.getCurrentRoutes().pop()
-    //   if(currentRoute.name == 'Home'){
-    //     !this.props.tabbar.show && this.props.dispatch(show())
-    //   } else {
-    //     // 隐藏应该提前 在navTo中完成
-    //     // this.props.tabbar.show && this.props.dispatch(hide())
-    //   }
-    // }, 300)
+    setTimeout(() => {
+      const currentRoute = nav.getCurrentRoutes().pop()
+      if(currentRoute.name == 'Dk'){
+        !this.props.tabbar.show && this.props.dispatch(show())
+      } else {
+        // 隐藏应该提前 在navTo中完成
+        // this.props.tabbar.show && this.props.dispatch(hide())
+      }
+    })
     switch (route.name) {
       case 'FirstPageComponent':
         return <FirstPageComponent route={route} navigator={ nav } />
@@ -47,6 +49,10 @@ class Index extends Component {
         return <PageOne route={route} navigator={ nav }  />;
       case 'PageTwo':
         return <PageTwo route={route} navigator={ nav }  />;
+      case 'Dk':
+        return <Dk route={route} navigator={ nav }  />;
+      case 'Dr':
+        return <Dr route={route} navigator={ nav }  />;
       default:
         return null
     }
@@ -59,7 +65,7 @@ class Index extends Component {
       <Navigator
         style={{flex:1}}
         onDidFocus={(e) => console.log('onDidFocus')}
-        initialRoute={{ name: 'Home', component: Home, title: 'Home' }}
+        initialRoute={{ name: 'Dk', component: Dk, title: 'Dk' }}
         configureScene={( route ) => {
           if ( route.sceneConfig ) {
             return route.sceneConfig;
@@ -69,7 +75,7 @@ class Index extends Component {
         renderScene={ this.renderScene.bind(this) }
         navigationBar={
           <Navigator.NavigationBar
-            style={{backgroundColor: 'white'}}
+            style={{backgroundColor: '#FFD700'}}
             {...this.props}
             routeMapper={ NavigationBarRouteMapper(this.props) }
           />
@@ -110,7 +116,7 @@ const NavigationBarRouteMapper = props => (
       );
     },
     Title( route, navigator, index, navState ){
-      if (index === 0) {
+      if (index === 10) {
         return null;
       }
       return (
@@ -142,4 +148,4 @@ const mapStateToProps = state => {
     nav: state.nav
   }
 }
-module.exports = connect(mapStateToProps)(Index)
+module.exports = connect(mapStateToProps)(Test)

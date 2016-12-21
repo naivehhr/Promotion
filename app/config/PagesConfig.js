@@ -19,7 +19,26 @@ const confs =   {
     name : "SecondPageComponent",
     component: () => {require("../containers/SecondPageComponent")}
   },
-
+  Dr : {
+    name : "Dr",
+    component: () => {require("../containers/Dr")}
+  },
+  Dk : {
+    name : "Dk",
+    component: () => {require("../containers/Dk")}
+  },
+  PageTwo : {
+    name : "PageTwo",
+    component: () => {require("../containers/PageTwo")}
+  },
+  PageOne : {
+    name : "PageOne",
+    component: () => {require("../containers/PageOne")}
+  },
+  FirstPageComponent : {
+    name : "SecondPageComponent",
+    component: () => {require("../containers/FirstPageComponent")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码
