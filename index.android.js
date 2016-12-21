@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import App from './app/app';
 import root from './root';
 export default class MyCalendar extends Component {
   render() {
@@ -50,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('MyCalendar', () => root);
+AppRegistry.registerComponent('MyCalendar', () => App);

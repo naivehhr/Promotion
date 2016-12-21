@@ -11,7 +11,9 @@ const o = Dimensions.get("window")
 const W = o.width
 const H = o.height
 import { connect } from 'react-redux'
-import {show, hide} from '../actions/tabbarActions'
+import { show, hide } from '../actions/tabbarActions'
+import { navTo } from '../actions/logicActions'
+import { PagesConfig } from '../config/PagesConfig'
 
 import PageOne from './PageOne'
 import SecondPageComponent from './SecondPageComponent';
@@ -21,21 +23,22 @@ export default class FirstPageComponent extends Component {
         super(props);
         this.state = {};
         this.props.route.title = '首页'
-
+        // console.log('PagesConfig',PagesConfig);
     }
 
 
     _pressButton() {
       const { navigator, dispatch } = this.props;
+      dispatch(navTo(PagesConfig.SecondPageComponent))
       //为什么这里可以取得 props.navigator?请看上文:
       //<Component {...route.params} navigator={navigator} />
       //这里传递了navigator作为props
       if(navigator) {
         // dispatch(hide())
-        navigator.push({
-            name: 'SecondPageComponent',
-            component: SecondPageComponent,
-        })
+        // navigator.push({
+        //     name: 'SecondPageComponent',
+        //     component: SecondPageComponent,
+        // })
         // setTimeout(() => {
         //   navigator.push({
         //       name: 'SecondPageComponent',
@@ -58,7 +61,7 @@ export default class FirstPageComponent extends Component {
         return (
             <ScrollView contentContainerStyle={{flex: 1,backgroundColor: 'red', alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity onPress={this._pressButton.bind(this)} >
-                    <Text>点我跳转</Text>
+                    <Text>FirstPageComponent 点我跳转</Text>
                 </TouchableOpacity>
             </ScrollView>
         );
@@ -66,6 +69,7 @@ export default class FirstPageComponent extends Component {
 }
 
 const mapStateToProps = state => {
+  // console.log(state);
   return {
     tabbar : state.tabbar
   }

@@ -27,15 +27,15 @@ import {show, hide, change} from '../actions/tabbarActions'
 class Index extends Component {
 
   renderScene( route, nav ) {
-    if(route.name == 'Home'){
-      setTimeout(() => {
+    setTimeout(() => {
+      const currentRoute = nav.getCurrentRoutes().pop()
+      if(currentRoute.name == 'Home'){
         !this.props.tabbar.show && this.props.dispatch(show())
-      }, 1)
-    } else {
-      setTimeout(() => {
-        this.props.tabbar.show && this.props.dispatch(hide())
-      }, 1)
-    }
+      } else {
+        // 隐藏应该提前 在navTo中完成
+        // this.props.tabbar.show && this.props.dispatch(hide())
+      }
+    }, 300)
     switch (route.name) {
       case 'FirstPageComponent':
         return <FirstPageComponent route={route} navigator={ nav } />
@@ -114,19 +114,21 @@ const NavigationBarRouteMapper = props => (
         return null;
       }
       return (
-        <Text >
-          {route.title}
-        </Text>
+        <View style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}>
+          <Text >
+            {route.title}
+          </Text>
+        </View>
       );
     },
     RightButton( route, navigator, index, navState ){
       return (
         <TouchableOpacity
           style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}
-          onPress={() => route.rightButtonOnClick && route.rightButtonOnClick()}
+          onPress={() => route.rightButton && route.rightButton.onClick()}
           >
           <Text >
-              {route.rightButtonTitle}
+              {route.rightButton && route.rightButton.text}
           </Text>
         </TouchableOpacity>
       );
@@ -136,7 +138,8 @@ const NavigationBarRouteMapper = props => (
 )
 const mapStateToProps = state => {
   return {
-    tabbar : state.tabbar
+    tabbar : state.tabbar,
+    nav: state.nav
   }
 }
 module.exports = connect(mapStateToProps)(Index)

@@ -18,7 +18,8 @@ import ScrollableTabView from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons';
 import DefaultTabBar from '../components/nav/DefaultTabBar'
 
-
+import { connect } from 'react-redux'
+import { nav_initial } from '../actions/navActions'
 import FirstPageComponent from './FirstPageComponent'
 import SecondPageComponent from './SecondPageComponent'
 import PageOne from './PageOne'
@@ -35,6 +36,8 @@ export default class Home extends Component {
       // this.setState({_marBot: 1})
     },2000)
     // console.log(this.props);
+    const { navigator, route } = this.props
+    this.props.dispatch(nav_initial(navigator, route))
   }
 
   render() {
@@ -76,4 +79,9 @@ class MyTabBar extends Component {
     )
   }
 }
-module.exports = Home
+const mapStateToProps = state => {
+  return {
+    tabbar : state.tabbar
+  }
+}
+module.exports = connect(mapStateToProps)(Home)
