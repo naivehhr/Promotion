@@ -32,9 +32,9 @@ export default class SecondPageComponent extends React.Component {
     _pressButton() {
         const { navigator, dispatch } = this.props;
         if(navigator) {
-            // navigator.pop();
+            navigator.pop();
         }
-        dispatch(navBack())
+        // dispatch(navBack())
     }
 
     render() {

@@ -8,8 +8,8 @@ import {
   PanResponder,
 } from 'react-native';
 
-import Line from './source/line'
-import * as helper from './source/helper'
+import Line from '../components/source/line'
+import * as helper from '../components/source/helper'
 const Width = Dimensions.get('window').width
 const Height = Dimensions.get('window').height
 const Top = (Height - Width)/2.0 * 1.5
@@ -24,6 +24,7 @@ class LineTest extends Component {
       // lines: []
     }
     this.isMoving = false;
+    console.log(Line);
   }
 
   componentWillMount() {

@@ -79,7 +79,7 @@ class Pageview extends Component {
     const {left} = this.state
     let _letf = left + W
     return (
-      <View contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <View style={{
           position: 'absolute',
           left: 0,

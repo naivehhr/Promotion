@@ -39,6 +39,42 @@ const confs =   {
     name : "SecondPageComponent",
     component: () => {require("../containers/FirstPageComponent")}
   },
+  Calendar : {
+    name : "Calendar",
+    component: () => {require("../containers/Calendar")}
+  },
+  LineTest : {
+    name : "LineTest",
+    component: () => {require("../containers/LineTest")}
+  },
+  EasingTest : {
+    name : "EasingTest",
+    component: () => {require("../containers/EasingTest")}
+  },
+  MenuScreen : {
+    name : "MenuScreen",
+    component: () => {require("../containers/MenuScreen")}
+  },
+  LoadingView : {
+    name : "LoadingView",
+    component: () => {require("../containers/LoadingView")}
+  },
+  Pageview : {
+    name : "Pageview",
+    component: () => {require("../containers/Pageview")}
+  },
+  PasswordGestureTest : {
+    name : "PasswordGestureTest",
+    component: () => {require("../containers/PasswordGestureTest")}
+  },
+  ScrollViewAnimationTest : {
+    name : "ScrollViewAnimationTest",
+    component: () => {require("../containers/ScrollViewAnimationTest")}
+  },
+  Refresh : {
+    name : "Refresh",
+    component: () => {require("../containers/Refresh")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码

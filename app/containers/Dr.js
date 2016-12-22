@@ -22,7 +22,7 @@ class Dr extends Component {
 
   componentDidMount() {
     console.log('加载','Dr');
-
+    // console.log(this.props);
   }
 
   componentWillUnmount() {

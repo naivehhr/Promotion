@@ -41,6 +41,7 @@ export default class Go extends Component {
     // console.log(this.props);
     // const { navigator, route } = this.props
     // this.props.dispatch(nav_initial(navigator, route))
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   render() {

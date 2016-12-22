@@ -62,7 +62,8 @@ const Button = ({onPress, easing}) => (
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 60
+    marginTop: 60,
+    backgroundColor: 'white'
   },
   button: {
   	height: 60,

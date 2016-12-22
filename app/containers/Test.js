@@ -16,7 +16,8 @@ import {
   Navigator
 } from 'react-native';
 
-
+import { connect } from 'react-redux'
+import {show, hide, change} from '../actions/tabbarActions'
 import FirstPageComponent from './FirstPageComponent'
 import SecondPageComponent from './SecondPageComponent'
 import PageTwo from './PageTwo'
@@ -24,13 +25,22 @@ import PageOne from './PageOne'
 import Dk from './Dk'
 import Dr from './Dr'
 import Home from './Home'
-import { connect } from 'react-redux'
-import {show, hide, change} from '../actions/tabbarActions'
+import Calendar from './Calendar'
+import LineTest from './LineTest'
+import EasingTest from './EasingTest'
+import MenuScreen from './MenuScreen'
+import LoadingView from './LoadingView'
+import Pageview from './Pageview'
+import PasswordGestureTest from './PasswordGestureTest'
+import ScrollViewAnimationTest from './ScrollViewAnimationTest'
+import Refresh from './Refresh'
+
 class Test extends Component {
 
   renderScene( route, nav ) {
     setTimeout(() => {
       const currentRoute = nav.getCurrentRoutes().pop()
+      console.log(currentRoute.name);
       if(currentRoute.name == 'Dk'){
         !this.props.tabbar.show && this.props.dispatch(show())
       } else {
@@ -39,6 +49,20 @@ class Test extends Component {
       }
     })
     switch (route.name) {
+      case 'Refresh':
+        return <Refresh route={route} navigator={ nav }  />;
+      case 'ScrollViewAnimationTest':
+        return <ScrollViewAnimationTest route={route} navigator={ nav }  />;
+      case 'PasswordGestureTest':
+        return <PasswordGestureTest route={route} navigator={ nav }  />;
+      case 'Pageview':
+        return <Pageview route={route} navigator={ nav }  />;
+      case 'LoadingView':
+        return <LoadingView route={route} navigator={ nav }  />;
+      case 'MenuScreen':
+        return <MenuScreen route={route} navigator={ nav }  />;
+      case 'EasingTest':
+        return <EasingTest route={route} navigator={ nav }  />;
       case 'FirstPageComponent':
         return <FirstPageComponent route={route} navigator={ nav } />
       case 'SecondPageComponent':
@@ -53,6 +77,10 @@ class Test extends Component {
         return <Dk route={route} navigator={ nav }  />;
       case 'Dr':
         return <Dr route={route} navigator={ nav }  />;
+      case 'Calendar':
+        return <Calendar route={route} navigator={ nav }  />;
+      case 'LineTest':
+        return <LineTest route={route} navigator={ nav }  />;
       default:
         return null
     }
@@ -65,7 +93,7 @@ class Test extends Component {
       <Navigator
         style={{flex:1}}
         onDidFocus={(e) => console.log('onDidFocus')}
-        initialRoute={{ name: 'Dk', component: Dk, title: 'Dk' }}
+        initialRoute={{ name: 'Dk', component: Dk, title: '首页' }}
         configureScene={( route ) => {
           if ( route.sceneConfig ) {
             return route.sceneConfig;
@@ -75,7 +103,7 @@ class Test extends Component {
         renderScene={ this.renderScene.bind(this) }
         navigationBar={
           <Navigator.NavigationBar
-            style={{backgroundColor: '#FFD700'}}
+            style={{backgroundColor: '#FFF0F5'}}
             {...this.props}
             routeMapper={ NavigationBarRouteMapper(this.props) }
           />

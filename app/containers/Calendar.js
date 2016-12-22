@@ -12,7 +12,8 @@ import {
   Animated,
   Easing,
   TouchableOpacity,
-  Alert
+  Alert,
+  InteractionManager
 } from 'react-native';
 const moment = require('moment');
 const o = Dimensions.get("window")
@@ -22,6 +23,7 @@ const weekList = ['日','一','二','三','四','五','六']
 const weekListNum = [0, 1, 2, 3, 4, 5, 6] // 星期日 到 星期一
 // const eventDay = {1: [1,2,3,4], 13: [3,4] }//模拟某天的事件
 // const eventDay = [{1: [1,2,3,4]}, {13: [3,4]} ]//模拟某天的事件
+import { connect } from 'react-redux'
 const customerAnimation = {
   duration: 100,
     create: {
@@ -37,7 +39,7 @@ const customerAnimation = {
       property: LayoutAnimation.Properties.opacity,
     },
 }
-export default class Calendar extends Component {
+class Calendar extends Component {
   constructor() {
     super()
     this.state = {
@@ -56,6 +58,8 @@ export default class Calendar extends Component {
   }
 
   componentWillMount() {
+    //为啥构造函数中拿不到props
+    this.props.route.title = '日历';
     this._panResponder = PanResponder.create({
      onStartShouldSetPanResponder: () => true,
      onMoveShouldSetPanResponder: ()=> true,
@@ -117,15 +121,17 @@ export default class Calendar extends Component {
   }
 
   componentDidMount() {
-    let days = moment().daysInMonth() //当前月天数
-    let firstDayWeek = moment().subtract(6, 'days').format('d') // 当月第一天是星期几
-    // this.makeData()
-    this.setState({
-      dateList: this.calculate(firstDayWeek,days),
-      compareList: this.makeData(),
-      events: this.makeEventArr()
+    InteractionManager.runAfterInteractions(() => {
+      let days = moment().daysInMonth() //当前月天数
+      let firstDayWeek = moment().subtract(6, 'days').format('d') // 当月第一天是星期几
+      // this.makeData()
+      this.setState({
+        dateList: this.calculate(firstDayWeek,days),
+        compareList: this.makeData(),
+        events: this.makeEventArr()
+      })
+      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     })
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   componentWillUpdate() {
@@ -332,7 +338,7 @@ export default class Calendar extends Component {
       }
     }
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={{
               height: 40,
               backgroundColor: 'white',
@@ -375,7 +381,7 @@ export default class Calendar extends Component {
           <Text>事件类型：</Text>
           {eventView}
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -478,6 +484,7 @@ const styles = StyleSheet.create({
     width:W,
     marginTop: 20,
     backgroundColor: '#F5FCFF',
+    marginTop: 64
   },
   itemDefault: {
     borderRadius: 15,
@@ -503,7 +510,14 @@ const styles = StyleSheet.create({
   }
 });
 
-
+const mapStateToProps = state => {
+  // console.log(state);
+  return {
+    tabbar : state.tabbar,
+    nav: state.nav
+  }
+}
+module.exports = connect()(Calendar)
 // Calendar.Header = Header
 // exports.title = 'Layout Animation';
 // module.exports = Item
