@@ -27,7 +27,6 @@ class Refresh extends Component {
   constructor() {
     super()
     this.state = {
-      isRefreshing: false
     }
   }
 
@@ -65,8 +64,9 @@ class MyScrollView extends Component {
   constructor() {
     super()
     this.state = {
-      isRefreshing: false,
     }
+    this.isRefreshing = false
+    this.isLoading = false
     this.bounceValue = new Animated.Value(0),
     this.startPosotion = -50 //手势开始时Y坐标
     this._dy = 0 // 上一个偏移量
@@ -119,6 +119,7 @@ class MyScrollView extends Component {
     // if(g.dy > 100) return
     let key = g.dy - this._dy
     this.startPosotion = this.startPosotion + key
+    console.log(this.startPosotion);
     this.bounceValue.setValue(this.startPosotion);
     this._dy = g.dy
     return
@@ -172,27 +173,47 @@ class MyScrollView extends Component {
   onEnd(e, g) {
     this._dy = 0
     let easing = Easing.in(Easing.quad)
-    if(this.startPosotion > 10) {
-      // this.startPosotion = 0
-      // this.state.bounceValue.setValue(this.startPosotion);
-      this.bounceValue.setValue(this.startPosotion)
-      Animated.timing(
-        this.bounceValue,
-        {
-          toValue: -50,
-          duration: 500,
-          easing
-        }
-      ).start(() => {
-        this.startPosotion = -50
-      })
+    // if(this.startPosotion > 10) {
+    //   this.isRefreshing = true
+    // }
 
+    if(this.startPosotion > -50)  {
+      console.log('pull');
+      if(this.startPosotion > 10) {
+        setTimeout(() => {
+          this.bounceValue.setValue(this.startPosotion)
+          Animated.timing(
+            this.bounceValue,
+            {
+              toValue: -50,
+              duration: 500,
+              easing
+            }
+          ).start(() => {
+            this.startPosotion = -50
+          })
+        }, 500)
+      } else {
+        this.bounceValue.setValue(this.startPosotion)
+        Animated.timing(
+          this.bounceValue,
+          {
+            toValue: -50,
+            duration: 500,
+            easing
+          }
+        ).start(() => {
+          this.startPosotion = -50
+        })
+      }
+    } else {
+      console.log('push');
     }
   }
 
 
   renderRow() {
-    let a = [1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9,1].map((item, index) => {
+    let a = [1,2,3,4,5,6,7,8,9,1].map((item, index) => {
       return (
         <View key={'_item' + index} style={{height: 100,
             backgroundColor:index% 2== 0? 'yellow': 'green',
@@ -201,18 +222,26 @@ class MyScrollView extends Component {
         </View>
       )
     })
+    // 插值插值
     return (
       <Animated.View
         ref={'_content'}
         style={{
           flex:1,
-          marginTop: this.bounceValue,
+          marginTop: this.bounceValue.interpolate({
+           inputRange: [-50,-25,23,40,60,500],
+           outputRange: [-50,-40,0,10,20,100]
+         }),
         }}>
         {a}
         <View style={{
             width: W,
             height: 50,
-            backgroundColor: 'red'}}>
+            backgroundColor: 'red'}}
+            onLayout={ event => {
+             console.log(event.nativeEvent.layout);
+             } }
+            >
             <View>
               <Text>Push Refresh Animation</Text>
             </View>
@@ -235,6 +264,7 @@ class MyScrollView extends Component {
           }}
           scrollEnabled={true}
           bounces={false}
+
           >
           <View style={{
               width: W,
