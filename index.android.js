@@ -12,7 +12,6 @@ import {
   View
 } from 'react-native';
 import App from './app/app';
-import root from './root';
 export default class MyCalendar extends Component {
   render() {
     return (

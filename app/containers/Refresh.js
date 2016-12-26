@@ -101,6 +101,7 @@ class MyScrollView extends Component {
   }
 
   componentDidMount() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     this.bounceValue.setValue(-50);
   }
   onStart(e, g) {

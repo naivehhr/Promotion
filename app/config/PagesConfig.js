@@ -75,6 +75,14 @@ const confs =   {
     name : "Refresh",
     component: () => {require("../containers/Refresh")}
   },
+  PullView : {
+    name : "PullView",
+    component: () => {require("../containers/PullView")}
+  },
+  PullView : {
+    name : "PullViewCustomer",
+    component: () => {require("../containers/PullViewCustomer")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码

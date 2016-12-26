@@ -34,6 +34,7 @@ import Pageview from './Pageview'
 import PasswordGestureTest from './PasswordGestureTest'
 import ScrollViewAnimationTest from './ScrollViewAnimationTest'
 import Refresh from './Refresh'
+import PullView from './PullView'
 
 class Test extends Component {
 
@@ -49,6 +50,8 @@ class Test extends Component {
       }
     })
     switch (route.name) {
+      case 'PullView':
+        return <PullView route={route} navigator={ nav }  />;
       case 'Refresh':
         return <Refresh route={route} navigator={ nav }  />;
       case 'ScrollViewAnimationTest':

@@ -41,6 +41,9 @@ class Dk extends Component {
   _pressButton(key) {
     const { nav, route, dispatch, navigator} = this.props
     switch (key) {
+      case 'PullView':
+        dispatch(navTo(PagesConfig.PullView))
+        break;
       case 'Refresh':
         dispatch(navTo(PagesConfig.Refresh))
         break;
@@ -76,7 +79,10 @@ class Dk extends Component {
     return (
       <ScrollView style={{flex: 1,width: W,  marginTop: 64, marginBottom: 50}}>
         <View style={{paddingVertical: 20,backgroundColor: '#FFDAB9',}}>
-          <TouchableOpacity style={[styles.item,{marginTop: 0}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Refresh')}>
+          <TouchableOpacity style={[styles.item,{marginTop: 0}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PullView')}>
+            <Text>PullView</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.item,{marginTop: 10}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Refresh')}>
             <Text>Refresh</Text>
           </TouchableOpacity>
           <View style={{marginTop:10, marginBottom: 10, flex: 1, width: W,height:2, backgroundColor: 'white'}}>
