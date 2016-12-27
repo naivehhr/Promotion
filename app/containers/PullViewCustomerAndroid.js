@@ -8,7 +8,8 @@ import {
   ScrollView,
   PanResponder,
   Animated,
-  Easing
+  Easing,
+  Platform
 } from 'react-native';
 
 import {PullView} from '../components/pullable';
@@ -30,10 +31,6 @@ export default class PullViewCustomerAndroid extends Component {
     this.isRefreshing = false
     this.isLoading = false
     this.block = false
-
-
-    this.defaultXY = {x: 0, y: -60 };
-    this.pan = new Animated.ValueXY()
   }
 
 
@@ -47,7 +44,9 @@ export default class PullViewCustomerAndroid extends Component {
       onPanResponderGrant: (event, gestureState) => {
           this.onStart(event, gestureState);
       },
-      onPanResponderMove: Animated.event([null, {dx: this.pan.x, dy: this.pan.y}]),
+      onPanResponderMove: (event, gestureState) => {
+          this.onMove(event, gestureState);
+      },
       onPanResponderRelease: (event, gestureState) => {
           this.onEnd(event, gestureState);
       }
@@ -68,53 +67,89 @@ export default class PullViewCustomerAndroid extends Component {
 
   //http://www.alloyteam.com/2016/01/reactnative-animated/
   onMove(e, g) {
-    // console.log('g.dy',g.dy);
+    console.log('g.dy= ', g.dy);
     // this.refs._scrollView.setNativeProps({
     //   style:{marginTop: -60 + g.dy}
     // })
-    if(this.block) return
-    let key = g.dy - this._dy
-    this.startPosotion = this.startPosotion + key
-    console.log('???',this.startPosotion);
-    this.headerHeight.setValue(this.startPosotion);
-    this._dy = g.dy
-    if(this.startPosotion > this.staticHeight) {
-      this.refs._scrollView.setNativeProps({
-        bounces:false
-      })
-      if(this.startPosotion > 170) {
-        this.setState({refreshMsg: 'refreshing....'})
+
+    if(Platform.OS === 'ios') {
+      if(this.block) return
+      let key = g.dy - this._dy
+      this.startPosotion = this.startPosotion + key
+      // console.log('startPosotion==',this.startPosotion);
+      this._dy = g.dy
+      if(this.startPosotion > this.staticHeight) {
+        this.headerHeight.setValue(this.startPosotion);
+        this.refs._scrollView.setNativeProps({
+          bounces:false
+        })
+        if(this.startPosotion > 170) {
+          this.setState({refreshMsg: 'refreshing....'})
+        } else {
+          this.setState({refreshMsg: 'pull to refresh'})
+        }
       } else {
-        this.setState({refreshMsg: 'pull to refresh'})
+        this.refs._scrollView.setNativeProps({
+          bounces:false
+        })
+        if(this.startPosotion < -120) {
+          this.setState({loadingMsg: 'loading....'})
+        } else {
+          this.setState({loadingMsg: 'push to load more'})
+        }
       }
+      return
     } else {
-      this.refs._scrollView.setNativeProps({
-        bounces:true
-      })
-      if(this.startPosotion < -80) {
-        this.setState({loadingMsg: 'loading....'})
-      } else {
-        this.setState({loadingMsg: 'push to load more'})
-      }
+
     }
-    return
+
   }
 
   onEnd(e, g) {
     // console.log('eeeeeg.dy',g.dy);
     // console.log(this.startPosotion);
-    this._dy = 0
-    let easing = Easing.in(Easing.quad)
-    if(this.startPosotion > this.staticHeight){
-      console.log('pull');
-      if(this.startPosotion > 170) {
-        this.isRefreshing = true
-        this.block = true
-        this.setState({
-          refreshMsg: 'loading....'
-        }, () => {
+
+    if(Platform.OS === 'ios') {
+      this._dy = 0
+      let easing = Easing.in(Easing.quad)
+      if(this.startPosotion > this.staticHeight){
+        console.log('pull');
+        if(this.startPosotion > 170) {
+          this.isRefreshing = true
+          this.block = true
+          // this.headerHeight.setValue(170);
+          this.setState({
+            refreshMsg: 'refreshing....'
+          }, () => {
+            Animated.timing(
+              this.headerHeight,
+              {
+                toValue: 170,
+                duration: 200,
+                easing
+              }
+            ).start(() => {
+              setTimeout(() => {
+                this.setState({refreshMsg: 'refresh complete'})
+                Animated.timing(
+                  this.headerHeight,
+                  {
+                    toValue: this.staticHeight,
+                    duration: 500,
+                    easing
+                  }
+                ).start(() => {
+                  this.startPosotion = this.staticHeight
+                  this.block = false
+                  this.setState({refreshMsg: 'pull to refresh'})
+                })
+              }, 2000)
+            })
+          })
+        } else {
+          console.log('自动回退');
           setTimeout(() => {
-            this.setState({refreshMsg: 'refresh complete'})
+            this.setState({refreshMsg: 'pull to refresh'})
             Animated.timing(
               this.headerHeight,
               {
@@ -124,81 +159,95 @@ export default class PullViewCustomerAndroid extends Component {
               }
             ).start(() => {
               this.startPosotion = this.staticHeight
-              this.block = false
-              this.setState({refreshMsg: 'pull to refresh'})
             })
-          }, 2000)
-        })
+          }, 1)
+        }
       } else {
+        console.log('push',this.startPosotion);
+        this.startPosotion = this.staticHeight
         setTimeout(() => {
-          this.headerHeight.setValue(this.startPosotion)
-          this.setState({loadingMsg: 'load complete'})
           Animated.timing(
             this.headerHeight,
             {
-              toValue: this.staticHeight,
+              toValue: 200,
               duration: 500,
               easing
             }
           ).start(() => {
             this.startPosotion = this.staticHeight
+            this.headerHeight.setValue(200);
+            this.setState({refreshMsg: 'push to load more'})
           })
-        }, 1)
+        },1000)
+        if(this.startPosotion < -120) {
+          // this.isLoading = true
+          // this.setState({
+          //   loadingMsg: 'loading'
+          // },() => {
+          //   setTimeout(() => {
+          //     this.setState({loadingMsg: 'push to load more'})
+          //     Animated.timing(
+          //       this.headerHeight,
+          //       {
+          //         toValue: this.staticHeight,
+          //         duration: 500,
+          //         easing
+          //       }
+          //     ).start(() => {
+          //       this.startPosotion = this.staticHeight
+          //       this.setState({refreshMsg: 'push to load more'})
+          //     })
+          //   }, 2000)
+          // })
+        } else {
+          // console.log('自动回退');
+          // setTimeout(() => {
+          //   console.log('bingo',this.startPosotion);
+          //   this.setState({loadingMsg: 'push to load more'})
+          //   Animated.timing(
+          //     this.headerHeight,
+          //     {
+          //       toValue: -160,
+          //       duration: 500,
+          //       easing
+          //     }
+          //   ).start(() => {
+          //     this.startPosotion = this.staticHeight
+          //   })
+          // }, 1000)
+        }
       }
     } else {
-      console.log('push');
-      if(this.startPosotion < -120) {
-        this.isLoading = true
-        this.setState({
-          loadingMsg: 'loading'
-        },() => {
-          setTimeout(() => {
-            this.setState({loadingMsg: 'push to load more'})
-            Animated.timing(
-              this.headerHeight,
-              {
-                toValue: this.staticHeight,
-                duration: 500,
-                easing
-              }
-            ).start(() => {
-              this.startPosotion = this.staticHeight
-              this.setState({refreshMsg: 'push to load more'})
-            })
-          }, 2000)
-        })
-      } else {
 
-      }
     }
-
   }
+
+
+
 
   render() {
     return (
       <Animated.ScrollView style={[styles.container,
         {
           marginTop: this.headerHeight.interpolate({
-           inputRange: [-200,-100,-60,0,200],
-           outputRange: [-100,-80,-60,-40,0]
-         }),
-         transform: this.pan.getTranslateTransform()
+            inputRange: [-120,-80,-60,0,200],
+            outputRange: [-80,-70,-60,-40,0]
+         })
         }]}
         ref={'_scrollView'}
         bounces={false}
         {...this._panResponder.panHandlers}
         onLayout={ event => {
-         console.log(event.nativeEvent.layout);
         } }
       >
         <View style={{
           width: W, height: 60,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#F5FCFF'}}>
+          backgroundColor: '#FFEC8B'}}>
           <Text>{this.state.refreshMsg}</Text>
         </View>
-        <View ref={'_view'} style={{height: H, backgroundColor: 'yellow'}}
+        <View ref={'_view'} style={{height: H*3, backgroundColor: 'yellow'}}
         />
         <View style={{
           width: W, height: 60,
