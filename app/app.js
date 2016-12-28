@@ -23,6 +23,9 @@ import SvgTest from './containers/SvgTest';
 import PullView from './containers/PullView';
 import PullViewCustomer from './containers/PullViewCustomer'
 import PullViewCustomerAndroid from './containers/PullViewCustomerAndroid'
+import DemoClass from './containers/DemoClass'
+import PullViewIOS from './containers/PullViewIOS'
+import ListViewTest from './containers/ListViewTest'
 
 import ConfigureStore from './store/configureStore'
 const store = ConfigureStore()
@@ -38,7 +41,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <PullViewCustomerAndroid />
+        <ListViewTest />
       </Provider>
     )
   }

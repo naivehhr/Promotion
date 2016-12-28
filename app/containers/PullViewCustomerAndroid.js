@@ -83,20 +83,20 @@ export default class PullViewCustomerAndroid extends Component {
         this.refs._scrollView.setNativeProps({
           bounces:false
         })
-        if(this.startPosotion > 170) {
+        if(this.startPosotion > 250) {
           this.setState({refreshMsg: 'refreshing....'})
         } else {
           this.setState({refreshMsg: 'pull to refresh'})
         }
       } else {
         this.refs._scrollView.setNativeProps({
-          bounces:false
+          bounces:true
         })
-        if(this.startPosotion < -120) {
-          this.setState({loadingMsg: 'loading....'})
-        } else {
-          this.setState({loadingMsg: 'push to load more'})
-        }
+        // if(this.startPosotion < -120) {
+        //   this.setState({loadingMsg: 'loading....'})
+        // } else {
+        //   this.setState({loadingMsg: 'push to load more'})
+        // }
       }
       return
     } else {
@@ -114,7 +114,7 @@ export default class PullViewCustomerAndroid extends Component {
       let easing = Easing.in(Easing.quad)
       if(this.startPosotion > this.staticHeight){
         console.log('pull');
-        if(this.startPosotion > 170) {
+        if(this.startPosotion > 250) {
           this.isRefreshing = true
           this.block = true
           // this.headerHeight.setValue(170);
@@ -125,7 +125,7 @@ export default class PullViewCustomerAndroid extends Component {
               this.headerHeight,
               {
                 toValue: 170,
-                duration: 200,
+                duration: 300,
                 easing
               }
             ).start(() => {
@@ -135,7 +135,7 @@ export default class PullViewCustomerAndroid extends Component {
                   this.headerHeight,
                   {
                     toValue: this.staticHeight,
-                    duration: 500,
+                    duration: 300,
                     easing
                   }
                 ).start(() => {
@@ -154,7 +154,7 @@ export default class PullViewCustomerAndroid extends Component {
               this.headerHeight,
               {
                 toValue: this.staticHeight,
-                duration: 500,
+                duration: 300,
                 easing
               }
             ).start(() => {
@@ -164,21 +164,22 @@ export default class PullViewCustomerAndroid extends Component {
         }
       } else {
         console.log('push',this.startPosotion);
-        this.startPosotion = this.staticHeight
-        setTimeout(() => {
-          Animated.timing(
-            this.headerHeight,
-            {
-              toValue: 200,
-              duration: 500,
-              easing
-            }
-          ).start(() => {
-            this.startPosotion = this.staticHeight
-            this.headerHeight.setValue(200);
-            this.setState({refreshMsg: 'push to load more'})
-          })
-        },1000)
+      
+        // this.startPosotion = this.staticHeight
+        // setTimeout(() => {
+        //   Animated.timing(
+        //     this.headerHeight,
+        //     {
+        //       toValue: 200,
+        //       duration: 500,
+        //       easing
+        //     }
+        //   ).start(() => {
+        //     this.startPosotion = this.staticHeight
+        //     this.headerHeight.setValue(200);
+        //     this.setState({refreshMsg: 'push to load more'})
+        //   })
+        // },1000)
         if(this.startPosotion < -120) {
           // this.isLoading = true
           // this.setState({
@@ -227,36 +228,38 @@ export default class PullViewCustomerAndroid extends Component {
 
   render() {
     return (
-      <Animated.ScrollView style={[styles.container,
-        {
-          marginTop: this.headerHeight.interpolate({
-            inputRange: [-120,-80,-60,0,200],
-            outputRange: [-80,-70,-60,-40,0]
-         })
-        }]}
-        ref={'_scrollView'}
-        bounces={false}
-        {...this._panResponder.panHandlers}
-        onLayout={ event => {
-        } }
-      >
-        <View style={{
-          width: W, height: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#FFEC8B'}}>
-          <Text>{this.state.refreshMsg}</Text>
-        </View>
-        <View ref={'_view'} style={{height: H*3, backgroundColor: 'yellow'}}
-        />
-        <View style={{
-          width: W, height: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#F5FCFF'}}>
-          <Text>{this.state.loadingMsg}</Text>
-        </View>
-      </Animated.ScrollView>
+      <View style={{flex: 1,}}>
+        <Animated.ScrollView style={[styles.container,
+          {
+            marginTop: this.headerHeight.interpolate({
+              inputRange: [-120,-80,-60,0,200],
+              outputRange: [-80,-70,-60,-40,0]
+           })
+          }]}
+          ref={'_scrollView'}
+          bounces={false}
+          {...this._panResponder.panHandlers}
+          onLayout={ event => {
+          } }
+        >
+          <View style={{
+            width: W, height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#FFEC8B'}}>
+            <Text>{this.state.refreshMsg}</Text>
+          </View>
+          <View ref={'_view'} style={{height: H*3, backgroundColor: 'yellow'}}
+          />
+          <View style={{
+            width: W, height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#F5FCFF'}}>
+            <Text>{this.state.loadingMsg}</Text>
+          </View>
+        </Animated.ScrollView>
+      </View>
     );
   }
 
