@@ -16,7 +16,7 @@ import {PullView} from '../components/pullable';
 const o = Dimensions.get("window")
 const W = o.width
 const H = o.height
-export default class PullViewCustomerAndroid extends Component {
+export default class PullNoFooter extends Component {
 	constructor(props) {
     super(props);
     this.state = {
@@ -59,6 +59,7 @@ export default class PullViewCustomerAndroid extends Component {
 
   componentDidMount() {
     this.headerHeight.setValue(this.startPosotion)
+    console.log(this.requestAnimationFrame);
   }
 
   onStart(e, g) {
@@ -90,7 +91,6 @@ export default class PullViewCustomerAndroid extends Component {
           this.setState({refreshMsg: 'pull to refresh'})
         }
       } else {
-        this.headerHeight.setValue(this.startPosotion);
         this.refs._scrollView.setNativeProps({
           bounces:true
         })
@@ -169,19 +169,6 @@ export default class PullViewCustomerAndroid extends Component {
         }
       } else {
         console.log('push',this.headerHeight);
-        setTimeout(() => {
-          Animated.timing(
-            this.headerHeight,
-            {
-              toValue: this.staticHeight,
-              duration: 500,
-              easing
-            }
-          ).start(() => {
-            this.startPosotion = this.staticHeight
-            this.setState({refreshMsg: 'push to load more'})
-          })
-        },1000)
         if(this.startPosotion < -120) {
           console.log('加载');
           // this.isLoading = true
@@ -254,13 +241,6 @@ export default class PullViewCustomerAndroid extends Component {
           </View>
           <View ref={'_view'} style={{height: H, backgroundColor: 'yellow'}}
           />
-          <View style={{
-            width: W, height: 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent'}}>
-            <Text>{this.state.loadingMsg}</Text>
-          </View>
         </Animated.ScrollView>
       </View>
     );

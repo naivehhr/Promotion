@@ -20,10 +20,46 @@ class ListViewTest extends Component {
     super()
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-     dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+     dataSource: ds.cloneWithRows(['row 1']),
+     isRefreshing: false
     };
+    this.Animated = new Animated.ValueXY()
   }
 
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (event, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+      onMoveShouldSetPanResponder: (event, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+      onPanResponderGrant: (event, gestureState) => {
+          this.onStart(event, gestureState);
+      },
+      onPanResponderMove: (event, gestureState) => {
+          this.onMove(event, gestureState);
+      },
+      onPanResponderRelease: (event, gestureState) => {
+          this.onEnd(event, gestureState);
+      }
+    })
+  }
+
+  onStart(e, g) {
+    // this.headerHeight.setValue(this.startPosotion)
+    console.log('start');
+    this._listView.setNativeProps({
+      bounces:false
+    })
+  }
+  onMove(e, g) {
+
+  }
+  onEnd(e, g) {
+    console.log('end');
+    this._listView.setNativeProps({
+      bounces:true
+    })
+  }
 
   _renderHeader() {
     return(
@@ -49,26 +85,38 @@ class ListViewTest extends Component {
   }
 
   _onScroll(event) {
-    console.log(event.nativeEvent);
+    // console.log(event.nativeEvent);
+    // let _contentOffset = event.nativeEvent.contentOffset
+    // if(Math.abs(_contentOffset.y) > 60) {
+    //   console.log('刷新');
+    //   // if(!this.state.isRefreshing) {
+    //   //   // this._listView.scrollTo({x:0, y: -10})
+    //   //   this.setState({isRefreshing: true})
+    //   //   setTimeout(() => {
+    //   //     this._listView.scrollTo({x:0, y: -10})
+    //   //     this.setState({isRefreshing: false})
+    //   //   },1000)
+    //   // }
+    // } else {
+    //   console.log('自动回弹');
+    // }
   }
 
   render() {
     return (
-      <StaticContainer>
-        <View style={{flex: 1}}>
-          <ListView
-            refs={'_c'}
-            style={{marginTop: -60}}
-            dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text>{rowData}</Text>}
-            renderHeader={this._renderHeader.bind(this)}
-            renderFooter={this._renderFooter.bind(this)}
-            onLayout={this._onLayout.bind(this)}
-            onScroll={this._onScroll.bind(this)}
-          />
-        </View>
-      </StaticContainer>
-
+      <View style={{flex: 1}}>
+        <ListView
+          {...this._panResponder.panHandlers}
+          ref={ref => {this._listView = ref}}
+          style={{marginTop: -60}}
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <Text>{rowData}</Text>}
+          renderHeader={this._renderHeader.bind(this)}
+          renderFooter={this._renderFooter.bind(this)}
+          onLayout={this._onLayout.bind(this)}
+          onScroll={this._onScroll.bind(this)}
+        />
+      </View>
     );
   }
 }

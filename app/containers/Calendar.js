@@ -55,11 +55,16 @@ class Calendar extends Component {
       left: 0,
       events: []
     }
+
+    // console.log(moment('2004').month(1).startOf('month').format('YYYY-MM-DD'))
+    // console.log(moment('2004').month(1).endOf('month').format('YYYY-MM-DD'))
   }
 
   componentWillMount() {
     //为啥构造函数中拿不到props
-    this.props.route.title = '日历';
+    if(this.props.route){
+      this.props.route.title = '日历';
+    }
     this._panResponder = PanResponder.create({
      onStartShouldSetPanResponder: () => true,
      onMoveShouldSetPanResponder: ()=> true,
