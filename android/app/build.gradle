@@ -130,6 +130,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'
     compile project(':react-native-smart-swipe-refresh-layout')
+    compile project(':react-native-smart-splashscreen')
     // From node_modules
 }
 

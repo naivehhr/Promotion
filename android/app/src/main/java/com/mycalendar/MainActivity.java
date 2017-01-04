@@ -1,6 +1,11 @@
 package com.mycalendar;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
+
 import com.facebook.react.ReactActivity;
+import com.reactnativecomponent.splashscreen.RCTSplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +16,11 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "MyCalendar";
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RCTSplashScreen.openSplashScreen(this);
     }
 }

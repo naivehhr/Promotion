@@ -1,5 +1,6 @@
 package com.mycalendar;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import com.reactnativecomponent.swiperefreshlayout.RCTSwipeRefreshLayoutPackage;
+import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
+import com.reactnativecomponent.splashscreen.RCTSplashScreen;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -25,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new RCTSwipeRefreshLayoutPackage()
+          new RCTSwipeRefreshLayoutPackage(),
+          new RCTSplashScreenPackage()
       );
     }
   };
@@ -37,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+//    RCTSplashScreen.openSplashScreen(this);
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }

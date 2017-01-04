@@ -1,3 +1,4 @@
+
 import React, {
     Component,
 } from 'react'
@@ -13,79 +14,70 @@ import {
     ProgressBarAndroid,
     ActivityIndicatorIOS,
     Platform,
-    Animated,
-    Easing,
-    LayoutAnimation
 } from 'react-native'
 
+import TimerEnhance from 'react-native-smart-timer-enhance'
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
-export default class PullToRefreshListViewDemo extends Component {
-  constructor(props) {
-    super(props);
 
-    this._dataSource = new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        //sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-    });
-    let dataList = []
-    this.state = {
-      first: true,
-      dataList: dataList,
-      dataSource: this._dataSource.cloneWithRows(dataList),
-      rotation: new Animated.Value(0),
-      rotationNomal: new Animated.Value(0),
-      addNum: 20
+class PullToRefreshListViewDemo extends Component {
+
+    // 构造
+    constructor(props) {
+        super(props);
+
+        this._dataSource = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2,
+            //sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+        });
+
+        let dataList = []
+
+        this.state = {
+            first: true,
+            dataList: dataList,
+            dataSource: this._dataSource.cloneWithRows(dataList),
+        }
     }
-  }
 
     componentDidMount () {
-      this.initAnimated()
-      this._pullToRefreshListView.beginRefresh()
+        this._pullToRefreshListView.beginRefresh()
     }
-    componentWillUpdate() {
-      // 以后这样写
-      // this.setState((state) => ({views: [...state.views, {}]}));
-      // LayoutAnimation.easeInEaseOut();
-      // LayoutAnimation.configureNext(customerAnimation);
-    }
-    initAnimated() {
-      this._an = Animated.timing(this.state.rotation, {
-        toValue: 1,
-        duration: 1000,
-        easing: Easing.linear,
-      }).start((r) => {
-        this.state.rotation.setValue(0)
-        this.initAnimated()
-      })
-    }
+
     //Using ListView
     render() {
         return (
             <PullToRefreshListView
                 ref={ (component) => this._pullToRefreshListView = component }
                 viewType={PullToRefreshListView.constants.viewType.listView}
-                contentContainerStyle={{backgroundColor: 'yellow', }}
+                contentContainerStyle={{backgroundColor: 'transparent', }}
                 style={{marginTop: Platform.OS == 'ios' ? 64 : 56, }}
                 initialListSize={20}
                 enableEmptySections={true}
                 dataSource={this.state.dataSource}
-                pageSize={20}
+                pageSize={30}
                 renderRow={this._renderRow}
+                //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
+
                 renderHeader={this._renderHeader}
                 renderFooter={this._renderFooter}
-                //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
                 onRefresh={this._onRefresh}
                 onLoadMore={this._onLoadMore}
-                pullUpDistance={60}
-                pullUpStayDistance={50}
-                pullDownDistance={60}
-                pullDownStayDistance={50}
+                autoLoadMore={true}
+                //onEndReachedThreshold={15}
             />
         )
 
     }
 
     _renderRow = (rowData, sectionID, rowID) => {
+        ////console.log('_renderRow')
+
+        //let imgSource = (!rowData.loaded ? {uri: rowData.img} : null)
+
+        ////console.log('rowID = ' + rowID)
+        ////console.log('rowData.loaded = ' + rowData.loaded)
+        ////console.log('imgSource = ' + imgSource)
+
         return (
             <View style={styles.thumbnail}>
                 <View style={styles.textContainer}>
@@ -102,56 +94,27 @@ export default class PullToRefreshListViewDemo extends Component {
         switch(pullState) {
             case refresh_none:
                 return (
-                    <Animated.View style={{top: -15,height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>pull down to refresh</Text>
-                    </Animated.View>
+                    </View>
                 )
             case refresh_idle:
-              this.state.rotationNomal.setValue(pullDistancePercent)
                 return (
-                    <Animated.View style={{ flexDirection: 'row',height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
-                      <Image
-                        style={{width: 15, height: 15,
-
-                        }}
-                        source={require('./img/refresh.png')}
-                      />
-                      <Text>pull down to refresh{pullDistancePercent}%</Text>
-                    </Animated.View>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
+                        <Text>pull down to refresh {pullDistancePercent}%</Text>
+                    </View>
                 )
             case will_refresh:
                 return (
-                    <Animated.View style={{flexDirection: 'row', height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
-                      <Animated.Image
-                        style={{width: 15, height: 15,
-                          transform: [{
-                            rotateZ: this.state.rotation.interpolate({
-                              inputRange: [0,1],
-                              outputRange: ['0deg', '360deg']
-                            })
-                          }]
-                        }}
-                        source={require('./img/refresh.png')}
-                      />
-                      <Text>release to refresh{pullDistancePercent > 100 ? 100 : pullDistancePercent}%</Text>
-                    </Animated.View>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
+                        <Text>release to refresh {pullDistancePercent > 100 ? 100 : pullDistancePercent}%</Text>
+                    </View>
                 )
             case refreshing:
                 return (
-                    <Animated.View style={{top: 10,flexDirection: 'row', height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
+                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}<Text>refreshing</Text>
-                        <Animated.Image
-                          style={{width: 15, height: 15,
-                            transform: [{
-                              rotateZ: this.state.rotation.interpolate({
-                                inputRange: [0,1],
-                                outputRange: ['0deg', '360deg']
-                              })
-                            }]
-                          }}
-                          source={require('./img/refresh.png')}
-                        />
-                    </Animated.View>
+                    </View>
                 )
         }
     }
@@ -163,32 +126,19 @@ export default class PullToRefreshListViewDemo extends Component {
         switch(pullState) {
             case load_more_none:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>pull up to load more</Text>
-                    </View>
-                )
-            case load_more_idle:
-                return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
-
-                      <Text>pull up to load more{pullDistancePercent}%</Text>
-                    </View>
-                )
-            case will_load_more:
-                return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
-                        <Text>release to load more{pullDistancePercent > 100 ? 100 : pullDistancePercent}%</Text>
                     </View>
                 )
             case loading_more:
                 return (
-                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
+                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}<Text>loading</Text>
                     </View>
                 )
             case loaded_all:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>no more</Text>
                     </View>
                 )
@@ -196,10 +146,13 @@ export default class PullToRefreshListViewDemo extends Component {
     }
 
     _onRefresh = () => {
-        setTimeout( () => {
+        console.log('outside _onRefresh start...')
+
+        //simulate request data
+        this.setTimeout( () => {
 
             //console.log('outside _onRefresh end...')
-            let addNum = this.state.addNum
+            let addNum = 20
             let refreshedDataList = []
             for(let i = 0; i < addNum; i++) {
                 refreshedDataList.push({
@@ -212,23 +165,23 @@ export default class PullToRefreshListViewDemo extends Component {
                 dataSource: this._dataSource.cloneWithRows(refreshedDataList),
             })
             this._pullToRefreshListView.endRefresh()
-            this.setState({addNum: 3})
-        }, 2000)
+
+        }, 3000)
     }
 
     _onLoadMore = () => {
-        //console.log('outside _onLoadMore start...')
+        console.log('outside _onLoadMore start...')
 
-        setTimeout( () => {
+        this.setTimeout( () => {
 
             //console.log('outside _onLoadMore end...')
 
             let length = this.state.dataList.length
             let addNum = 20
             let addedDataList = []
-            if(length >= 100) {
-                addNum = 3
-            }
+            //if(length >= 100) {
+            //    addNum = 3
+            //}
             for(let i = length; i < length + addNum; i++) {
                 addedDataList.push({
                     text: `item-${i}`
@@ -240,17 +193,19 @@ export default class PullToRefreshListViewDemo extends Component {
                 dataSource: this._dataSource.cloneWithRows(newDataList),
             })
 
-            let loadedAll
-            if(length >= 100) {
-                loadedAll = true
-                this._pullToRefreshListView.endLoadMore(loadedAll)
-            }
-            else {
-                loadedAll = false
-                this._pullToRefreshListView.endLoadMore(loadedAll)
-            }
+            //let loadedAll
+            //if(length >= 100) {
+            //    loadedAll = true
+            //    this._pullToRefreshListView.endLoadMore(loadedAll)
+            //}
+            //else {
+            //    loadedAll = false
+            //    this._pullToRefreshListView.endLoadMore(loadedAll)
+            //}
 
-        }, 2000)
+            this._pullToRefreshListView.endLoadMore()
+
+        }, 3000)
     }
 
     _renderActivityIndicator() {
@@ -303,6 +258,11 @@ const styles = StyleSheet.create({
         paddingTop: 20 + 44,
     },
 
+    separator: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: '#ccc',
+    },
+
     thumbnail: {
         padding: 6,
         flexDirection: 'row',
@@ -318,3 +278,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 })
+
+export default TimerEnhance(PullToRefreshListViewDemo)

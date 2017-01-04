@@ -17,7 +17,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons';
 import DefaultTabBar from '../components/nav/DefaultTabBar'
-
+import SplashScreen from 'react-native-smart-splash-screen'
 import { connect } from 'react-redux'
 import { nav_initial } from '../actions/navActions'
 import FirstPageComponent from './FirstPageComponent'
@@ -35,6 +35,7 @@ export default class Go extends Component {
     }
   }
   componentDidMount() {
+    SplashScreen.close(SplashScreen.animationType.scale, 850, 2000)
     setTimeout(() => {
       // this.setState({_marBot: 1})
     },2000)
