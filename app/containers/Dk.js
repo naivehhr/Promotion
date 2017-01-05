@@ -41,8 +41,11 @@ class Dk extends Component {
   _pressButton(key) {
     const { nav, route, dispatch, navigator} = this.props
     switch (key) {
-      case 'PullView':
-        dispatch(navTo(PagesConfig.PullView))
+      case 'PullToRefreshViewStickyHeaderAndroidPullToRefresh':
+        dispatch(navTo(PagesConfig.PullToRefreshViewStickyHeaderAndroidPullToRefresh))
+        break;
+      case 'PullToRefreshViewPullToRefreshScrollView':
+        dispatch(navTo(PagesConfig.PullToRefreshViewPullToRefreshScrollView))
         break;
       case 'Refresh':
         dispatch(navTo(PagesConfig.Refresh))
@@ -79,16 +82,14 @@ class Dk extends Component {
     return (
       <ScrollView style={{flex: 1,width: W,  marginTop: 64, marginBottom: 50}}>
         <View style={{paddingVertical: 20,backgroundColor: '#FFDAB9',}}>
-          <TouchableOpacity style={[styles.item,{marginTop: 0}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PullView')}>
-            <Text>PullView</Text>
+          <TouchableOpacity style={[styles.item,{marginTop: 0}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PullToRefreshViewStickyHeaderAndroidPullToRefresh')}>
+            <Text>StickyHeaderPullToRefresh</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.item,{marginTop: 10}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Refresh')}>
-            <Text>Refresh</Text>
+          <TouchableOpacity style={[styles.item,{marginTop: 10}]} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PullToRefreshViewPullToRefreshScrollView')}>
+            <Text>PullToRefreshScrollView</Text>
           </TouchableOpacity>
-          <View style={{marginTop:10, marginBottom: 10, flex: 1, width: W,height:2, backgroundColor: 'white'}}>
-          </View>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Calendar')}>
-            <Text>日历</Text>
+            <Text>Calendar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PasswordGestureTest')}>
             <Text>PasswordGestureTest</Text>

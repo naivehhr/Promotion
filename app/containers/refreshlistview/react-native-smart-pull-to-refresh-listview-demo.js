@@ -42,7 +42,7 @@ class PullToRefreshListViewDemo extends Component {
             <PullToRefreshListView
                 ref={ (component) => this._pullToRefreshListView = component }
                 contentContainerStyle={{backgroundColor: 'transparent', }}
-                style={{marginTop: Platform.OS == 'ios' ? 64 : 56, }}
+                style={{backgroundColor: 'white' ,marginTop: Platform.OS == 'ios' ? 64 : 56, }}
                 renderHeader={this._renderHeader}
                 renderFooter={this._renderFooter}
                 onRefresh={this._onRefresh}

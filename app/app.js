@@ -27,7 +27,7 @@ import PullNoFooter from './containers/PullNoFooter'
 import DemoClass from './containers/DemoClass'
 import PullViewIOS from './containers/PullViewIOS'
 import ListViewTest from './containers/ListViewTest'
-// import PullToRefreshListViewDemo from './containers/PullToRefreshListViewDemo'
+import PullToRefreshListViewDemo from './containers/PullToRefreshListViewDemo'
 
 
 

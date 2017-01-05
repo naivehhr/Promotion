@@ -75,13 +75,13 @@ const confs =   {
     name : "Refresh",
     component: () => {require("../containers/Refresh")}
   },
-  PullView : {
-    name : "PullView",
-    component: () => {require("../containers/PullView")}
+  PullToRefreshViewPullToRefreshScrollView : {
+    name : "PullToRefreshViewPullToRefreshScrollView",
+    component: () => {require("../containers/PullToRefreshView")}
   },
-  PullView : {
-    name : "PullViewCustomer",
-    component: () => {require("../containers/PullViewCustomer")}
+  PullToRefreshViewStickyHeaderAndroidPullToRefresh : {
+    name : "PullToRefreshViewStickyHeaderAndroidPullToRefresh",
+    component: () => {require("../containers/PullToRefreshView")}
   },
 }
 // confs.initial = confs.Home

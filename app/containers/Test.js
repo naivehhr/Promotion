@@ -35,6 +35,7 @@ import PasswordGestureTest from './PasswordGestureTest'
 import ScrollViewAnimationTest from './ScrollViewAnimationTest'
 import Refresh from './Refresh'
 import PullView from './PullView'
+import PullToRefreshView from './PullToRefreshView'
 
 class Test extends Component {
 
@@ -50,8 +51,10 @@ class Test extends Component {
       }
     })
     switch (route.name) {
-      case 'PullView':
-        return <PullView route={route} navigator={ nav }  />;
+      case 'PullToRefreshViewStickyHeaderAndroidPullToRefresh':
+        return <PullToRefreshView.StickyHeaderAndroidPullToRefreshDemo route={route} navigator={ nav }  />;
+      case 'PullToRefreshViewPullToRefreshScrollView':
+        return <PullToRefreshView.PllToRefreshScrollView route={route} navigator={ nav }  />;
       case 'Refresh':
         return <Refresh route={route} navigator={ nav }  />;
       case 'ScrollViewAnimationTest':

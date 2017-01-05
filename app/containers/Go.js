@@ -14,6 +14,8 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import I18n from 'react-native-i18n'
+import ReactNativeI18n from 'react-native-i18n'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons';
 import DefaultTabBar from '../components/nav/DefaultTabBar'
@@ -43,6 +45,8 @@ export default class Go extends Component {
     // const { navigator, route } = this.props
     // this.props.dispatch(nav_initial(navigator, route))
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    const deviceLocale = ReactNativeI18n.locale
+    console.log('deviceLocale',deviceLocale);
   }
 
   render() {
@@ -57,7 +61,7 @@ export default class Go extends Component {
       renderTabBar={() => <DefaultTabBar />}
       prerenderingSiblingsNumber={1}
      >
-       <Test ref='Test' tabLabel="啦啦啦" {...this.props}/>
+       <Test ref='Test' tabLabel={I18n.t('greeting')} {...this.props}/>
        <Test1 ref='Test1' tabLabel="嘟嘟嘟"  {...this.props}/>
      </ScrollableTabView>
     );
@@ -84,6 +88,22 @@ class MyTabBar extends Component {
     )
   }
 }
+
+I18n.fallbacks = true
+
+I18n.translations = {
+  zh: {
+    greeting: '啦啦啦'
+  },
+  en: {
+    greeting: 'Hi!'
+  },
+  fr: {
+    greeting: 'Bonjour!'
+  }
+}
+
+
 const mapStateToProps = state => {
   return {
     tabbar : state.tabbar

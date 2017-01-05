@@ -139,7 +139,6 @@ export default class PullToRefreshListViewDemo extends Component {
             case refreshing:
                 return (
                     <Animated.View style={{top: 10,flexDirection: 'row', height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
-                        {this._renderActivityIndicator()}<Text>refreshing</Text>
                         <Animated.Image
                           style={{width: 15, height: 15,
                             transform: [{
@@ -151,6 +150,7 @@ export default class PullToRefreshListViewDemo extends Component {
                           }}
                           source={require('./img/refresh.png')}
                         />
+                      <Text>refreshing</Text>
                     </Animated.View>
                 )
         }
