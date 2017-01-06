@@ -8,6 +8,7 @@ import {
 
 import { Provider } from 'react-redux';
 
+import SplashScreen from 'react-native-smart-splash-screen'
 
 import Index from './containers/Index';
 import Go from './containers/Go';
@@ -28,6 +29,7 @@ import DemoClass from './containers/DemoClass'
 import PullViewIOS from './containers/PullViewIOS'
 import ListViewTest from './containers/ListViewTest'
 import PullToRefreshListViewDemo from './containers/PullToRefreshListViewDemo'
+import AnimationNumber from './containers/AnimationNumber'
 
 
 
@@ -49,6 +51,9 @@ export default class App extends Component {
     this.state = {
       index: 1
     }
+  }
+  componentDidMount() {
+    SplashScreen.close(SplashScreen.animationType.scale, 850, 2000)
   }
   render() {
     return (

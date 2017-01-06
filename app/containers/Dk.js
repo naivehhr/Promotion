@@ -41,6 +41,9 @@ class Dk extends Component {
   _pressButton(key) {
     const { nav, route, dispatch, navigator} = this.props
     switch (key) {
+      case 'AnimationNumber':
+        dispatch(navTo(PagesConfig.AnimationNumber))
+        break;
       case 'PullToRefreshViewStickyHeaderAndroidPullToRefresh':
         dispatch(navTo(PagesConfig.PullToRefreshViewStickyHeaderAndroidPullToRefresh))
         break;
@@ -90,6 +93,9 @@ class Dk extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Calendar')}>
             <Text>Calendar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'AnimationNumber')}>
+            <Text>AnimationNumber</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PasswordGestureTest')}>
             <Text>PasswordGestureTest</Text>

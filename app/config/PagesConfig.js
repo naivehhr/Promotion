@@ -83,6 +83,10 @@ const confs =   {
     name : "PullToRefreshViewStickyHeaderAndroidPullToRefresh",
     component: () => {require("../containers/PullToRefreshView")}
   },
+  AnimationNumber : {
+    name : "AnimationNumber",
+    component: () => {require("../containers/AnimationNumber")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码

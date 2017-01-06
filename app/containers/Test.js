@@ -15,7 +15,9 @@ import {
   Alert,
   Navigator
 } from 'react-native';
-
+const o = Dimensions.get("window")
+const W = o.width
+const H = o.height
 import { connect } from 'react-redux'
 import {show, hide, change} from '../actions/tabbarActions'
 import FirstPageComponent from './FirstPageComponent'
@@ -36,6 +38,7 @@ import ScrollViewAnimationTest from './ScrollViewAnimationTest'
 import Refresh from './Refresh'
 import PullView from './PullView'
 import PullToRefreshView from './PullToRefreshView'
+import AnimationNumber from './AnimationNumber'
 
 class Test extends Component {
 
@@ -51,6 +54,8 @@ class Test extends Component {
       }
     })
     switch (route.name) {
+      case 'AnimationNumber':
+        return <AnimationNumber route={route} navigator={ nav }  />;
       case 'PullToRefreshViewStickyHeaderAndroidPullToRefresh':
         return <PullToRefreshView.StickyHeaderAndroidPullToRefreshDemo route={route} navigator={ nav }  />;
       case 'PullToRefreshViewPullToRefreshScrollView':
@@ -154,7 +159,7 @@ const NavigationBarRouteMapper = props => (
         return null;
       }
       return (
-        <View style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}>
+        <View style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 220}}>
           <Text >
             {route.title}
           </Text>
