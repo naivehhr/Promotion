@@ -5,6 +5,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.RNSvgPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.facebook.react.ReactInstanceManager;
@@ -17,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import com.reactnativecomponent.swiperefreshlayout.RCTSwipeRefreshLayoutPackage;
 import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
-import com.reactnativecomponent.splashscreen.RCTSplashScreen;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -30,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSvgPackage(),
             new LinearGradientPackage(),
             new ReactNativeI18n(),
           new RCTSwipeRefreshLayoutPackage(),

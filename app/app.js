@@ -30,6 +30,7 @@ import PullViewIOS from './containers/PullViewIOS'
 import ListViewTest from './containers/ListViewTest'
 import PullToRefreshListViewDemo from './containers/PullToRefreshListViewDemo'
 import AnimationNumber from './containers/AnimationNumber'
+import SvgExample from './containers/SvgExample'
 
 
 
@@ -58,7 +59,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Go />
+        <SvgExample />
       </Provider>
     )
   }

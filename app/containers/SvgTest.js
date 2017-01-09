@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 var ReactART = require('ReactNativeART');
-
+// https://segmentfault.com/a/1190000004422456?utm_source=tuicool&utm_medium=referral
 var {
   Surface,
   Shape,
@@ -62,18 +62,29 @@ class SvgTest extends Component {
   }
 
   render() {
+    // http://daguang.me/2016/08/17/react-native-art-%E7%BB%98%E5%9B%BE%E5%85%A5%E9%97%A8/
     var point = pathMetrics.point(this.state.value);
-    return (
-      <Surface width={320} height={600}>
-        <Shape d={SVG_PATH}
-               stroke="black" strokeDash={[this.state.value,700]}
-               strokeWidth={2} />
-        <Shape d={boxPath}
-               x={point.x}
-               y={point.y}
-               stroke="blue" />
-      </Surface>
-    );
+    const path = new Path()
+            .moveTo(100,100)
+            .lineTo(1,100)
+            .lineTo(20,0)
+            .lineTo(100,0)
+            .close();
+    // return (
+    //   <Surface width={320} height={600}>
+    //     <Shape d={SVG_PATH}
+    //            stroke="black" strokeDash={[this.state.value,700]}
+    //            strokeWidth={2} />
+    //
+    //   </Surface>
+    // );
+    return(
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
+              <Surface width={100} height={100}>
+                  <Shape d={path} stroke="#000000" fill="#892265" strokeWidth={1} />
+              </Surface>
+            </View>
+        )
   }
 }
 
