@@ -16,7 +16,8 @@ import Svg, {
     Defs,
     LinearGradient,
     Stop,
-    Ellipse
+    Ellipse,
+    Text
 } from 'react-native-svg';
 
 //<path d="M125,85 a60,60 0 1,0 -115,0" fill="#E79A16" /><!--Top Half-->
@@ -99,34 +100,69 @@ export default class SvgExample extends Component {
             position: 'absolute', top: 0};
     }
 
+    // render() {
+    //     return (
+    //         <View style={{flex: 1, backgroundColor: 'white',alignItems: 'center', justifyContent: 'center'}}>
+    //           <Svg
+    //             height="150"
+    //             width="300"
+    //             >
+    //             <Defs>
+    //               <LinearGradient id="grad" x1="0" y1="0" x2="100" y2="100">
+    //                 <Stop offset="0" stopColor="red" stopOpacity="0" />
+    //                 <Stop offset="1" stopColor="red" stopOpacity="1" />
+    //               </LinearGradient>
+    //             </Defs>
+    //
+    //             <Polygon
+    //               points="100,100 100,0 30,0 0,100"
+    //               fill="url(#grad)"
+    //               stroke="purple"
+    //               strokeWidth="1"
+    //             />
+    //         </Svg>
+    //       </View>
+    //     );
+    // }
+
     render() {
         return (
             <View style={{flex: 1, backgroundColor: 'white',alignItems: 'center', justifyContent: 'center'}}>
-              <View style={{zIndex: 1, width: 300,height: 100, backgroundColor: 'white'}}>
-                <Svg
-                  height="150"
-                  width="300"
-                  >
-                  <Polyline
-                    points="200,0 30,0 0,100 200,100"
-                    fill="none"
-                    stroke="black"
-                    strokeWidth="1"
-                    opacity="0.5"
-                  />
-                </Svg>
-              </View>
-              <LinearGradientA
-                colors={['rgba(255,255,255,0.5)', '#FFE4C4']} style={{
-                  position: 'absolute',
-                  top: 280,
-                  left: 38,
-                  width: 200,
-                  height: 104,
-                  opacity: 0.9,
-                  zIndex: 2,
-                }} />
-            </View>
+              <Svg
+                height="150"
+                width="300"
+                >
+                <Circle cx="100" cy="8" r="4" strokeWidth="2" stroke="green" fill="pink"/>
+                  <Text
+                    fill="#600"
+                    stroke="purple"
+                    fontSize="12"
+                    fontWeight="bold"
+                    x="100"
+                    y="8"
+                    textAnchor="middle"
+                >55.1</Text>
+                <Polyline
+                  points="0,10 40,20 60,1 90,30 100,10,"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                />
+                <Defs>
+                  <LinearGradient id="grad" x1="0" y1="0" x2="100" y2="100">
+                    <Stop offset="0" stopColor="red" stopOpacity="0" />
+                    <Stop offset="1" stopColor="red" stopOpacity="1" />
+                  </LinearGradient>
+                </Defs>
+
+                <Polygon
+                  points="100,100 100,10 90,30 60,0 40,20 0,10 0,100"
+                  fill="red"
+                  strokeWidth="1"
+                  opacity="0.8"
+                />
+            </Svg>
+          </View>
         );
     }
 }
