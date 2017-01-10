@@ -21,7 +21,7 @@ import Svg, {
 
 //<path d="M125,85 a60,60 0 1,0 -115,0" fill="#E79A16" /><!--Top Half-->
 // <path d="M10,85 a60,60 0 0,0 115,0" fill="#D78500" /><!--Bottom Half-->
-
+import LinearGradientA from 'react-native-linear-gradient';
 export default class SvgExample extends Component {
     state = {
         posY: new Animated.Value(0)
@@ -102,31 +102,30 @@ export default class SvgExample extends Component {
     render() {
         return (
             <View style={{flex: 1, backgroundColor: 'white',alignItems: 'center', justifyContent: 'center'}}>
-              <Svg
+              <View style={{zIndex: 1, width: 300,height: 100, backgroundColor: 'white'}}>
+                <Svg
                   height="150"
                   width="300"
-                >
-                <Polyline
-                    points="100,0 30,0 0,100"
+                  >
+                  <Polyline
+                    points="200,0 30,0 0,100 200,100"
                     fill="none"
                     stroke="black"
                     strokeWidth="1"
-                />
-                <Circle
-                        cx="50"
-                        cy="50"
-                        r="50"
-                        fill="pink"
-                    />
-
-                <Defs>
-                <LinearGradient id="grad" x1="0" y1="0" x2="170" y2="0">
-                    <Stop offset="0" stopColor="rgb(255,255,0)" stopOpacity="0" />
-                    <Stop offset="1" stopColor="red" stopOpacity="1" />
-                </LinearGradient>
-                </Defs>
-                <Ellipse cx="150" cy="75" rx="85" ry="55" fill="url(#grad)" />
-              </Svg>
+                    opacity="0.5"
+                  />
+                </Svg>
+              </View>
+              <LinearGradientA
+                colors={['rgba(255,255,255,0.5)', '#FFE4C4']} style={{
+                  position: 'absolute',
+                  top: 280,
+                  left: 38,
+                  width: 200,
+                  height: 104,
+                  opacity: 0.9,
+                  zIndex: 2,
+                }} />
             </View>
         );
     }
