@@ -97,6 +97,11 @@ class PullToRefreshListViewDemo extends Component {
         pullDistancePercent = Math.round(pullDistancePercent * 100)
         switch(pullState) {
             case refresh_none:
+              Animated.timing(this.state.rotationNomal, {
+                toValue: 0,
+                duration: 300,
+                easing: Easing.linear,
+              }).start()
                 return (
                   <Animated.View style={{top: -15,height: 60, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink',}}>
                       <Text>pull down to refresh</Text>

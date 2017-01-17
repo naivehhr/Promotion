@@ -126,16 +126,22 @@ const NavigationBarRouteMapper = props => (
       );
     },
     RightButton( route, navigator, index, navState ){
-      return (
-        <TouchableOpacity
-          style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}
-          onPress={() => route.rightButton && route.rightButton.onClick()}
-          >
-          <Text >
-              {route.rightButton && route.rightButton.text}
-          </Text>
-        </TouchableOpacity>
-      );
+      let rendRight = route.rightElement
+      // console.log('rendRight', rendRight);
+      if(!rendRight) {
+        return (
+          <TouchableOpacity
+            style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}
+            onPress={() => route.rightButton && route.rightButton.onClick()}
+            >
+            <Text >
+                {route.rightButton && route.rightButton.text || 'onClick'}
+            </Text>
+          </TouchableOpacity>
+        );
+      } else {
+        return rendRight()
+      }
     }
   }
 

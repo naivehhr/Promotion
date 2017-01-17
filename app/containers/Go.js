@@ -12,8 +12,14 @@ import {
   Animated,
   Easing,
   TouchableOpacity,
-  Alert
+  Alert,
+  StatusBar
 } from 'react-native';
+
+const o = Dimensions.get("window")
+const W = o.width
+const H = o.height
+
 import I18n from 'react-native-i18n'
 import ReactNativeI18n from 'react-native-i18n'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
@@ -33,14 +39,18 @@ export default class Go extends Component {
   constructor() {
     super()
     this.state = {
-      _marBot: 0
+      _marBot: 0,
+      _top: -20,
+      showStatusBar: false
     }
+    // this.timer = setTimeout(() => {
+    //   this.setState({_top: 0, showStatusBar: true})
+    // },2000)
+    // setTimeout(() => {
+    //   this.setState({_top: -20, showStatusBar: false})
+    // },4000)
   }
   componentDidMount() {
-
-    setTimeout(() => {
-      // this.setState({_marBot: 1})
-    },2000)
     // console.log(this.props);
     // const { navigator, route } = this.props
     // this.props.dispatch(nav_initial(navigator, route))
@@ -51,19 +61,41 @@ export default class Go extends Component {
 
   render() {
     const { navigator, route } = this.props
+    const { showStatusBar, _top } = this.state
     return (
-     <ScrollableTabView
-      tabBarPosition={'bottom'}
-      locked={true}
-      initialPage={0}
-      page={this.state._marBot}
-      scrollWithoutAnimation={false}
-      renderTabBar={() => <DefaultTabBar />}
-      prerenderingSiblingsNumber={1}
-     >
-       <Test ref='Test' tabLabel={I18n.t('greeting')} {...this.props}/>
-       <Test1 ref='Test1' tabLabel="嘟嘟嘟"  {...this.props}/>
-     </ScrollableTabView>
+     <View style={{flex: 1,}}>
+       {
+         Platform.OS === 'android'? null :
+         <StatusBar
+           barStyle="default"
+           hidden={showStatusBar}
+         />
+       }
+       <View style={{
+           position: 'absolute',
+           zIndex: 1,
+           top: _top,
+           width: W,
+           height: 20,
+           backgroundColor: 'red',
+           alignItems: 'center',
+           justifyContent: 'center'
+         }}>
+         <Text>网络状态</Text>
+       </View>
+       <ScrollableTabView
+        tabBarPosition={'bottom'}
+        locked={true}
+        initialPage={0}
+        page={this.state._marBot}
+        scrollWithoutAnimation={false}
+        renderTabBar={() => <DefaultTabBar />}
+        prerenderingSiblingsNumber={1}
+       >
+         <Test ref='Test' tabLabel={I18n.t('greeting')} {...this.props}/>
+         <Test1 ref='Test1' tabLabel="嘟嘟嘟"  {...this.props}/>
+       </ScrollableTabView>
+     </View>
     );
   }
 }

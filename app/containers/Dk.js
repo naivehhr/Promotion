@@ -41,6 +41,9 @@ class Dk extends Component {
   _pressButton(key) {
     const { nav, route, dispatch, navigator} = this.props
     switch (key) {
+      case 'Curve':
+        dispatch(navTo(PagesConfig.SvgExample))
+        break;
       case 'AnimationNumber':
         dispatch(navTo(PagesConfig.AnimationNumber))
         break;
@@ -96,6 +99,9 @@ class Dk extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'AnimationNumber')}>
             <Text>AnimationNumber</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Curve')}>
+            <Text>Curve</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'PasswordGestureTest')}>
             <Text>PasswordGestureTest</Text>

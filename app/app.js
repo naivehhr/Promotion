@@ -31,6 +31,9 @@ import ListViewTest from './containers/ListViewTest'
 import PullToRefreshListViewDemo from './containers/PullToRefreshListViewDemo'
 import AnimationNumber from './containers/AnimationNumber'
 import SvgExample from './containers/SvgExample'
+import SvgAnimated from './containers/SvgAnimated'
+import MovingHand from './containers/MovingHand'
+import ListVVV from './containers/ListVVV'
 
 
 
@@ -59,7 +62,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SvgExample />
+        <Go />
       </Provider>
     )
   }

@@ -52,7 +52,7 @@ class AnimationNumber extends Component {
         this.doAnimated()
         ++i
       }
-    }, this.state.duration);
+    }, this.state.duration + 50);
   }
 
  // componentDidMount = () => {

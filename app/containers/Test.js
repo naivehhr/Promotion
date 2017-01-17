@@ -39,7 +39,7 @@ import Refresh from './Refresh'
 import PullView from './PullView'
 import PullToRefreshView from './PullToRefreshView'
 import AnimationNumber from './AnimationNumber'
-
+import SvgExample from './SvgExample'
 class Test extends Component {
 
   renderScene( route, nav ) {
@@ -54,6 +54,8 @@ class Test extends Component {
       }
     })
     switch (route.name) {
+      case 'SvgExample':
+        return <SvgExample route={route} navigator={ nav }  />;
       case 'AnimationNumber':
         return <AnimationNumber route={route} navigator={ nav }  />;
       case 'PullToRefreshViewStickyHeaderAndroidPullToRefresh':

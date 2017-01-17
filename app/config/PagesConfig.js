@@ -87,6 +87,10 @@ const confs =   {
     name : "AnimationNumber",
     component: () => {require("../containers/AnimationNumber")}
   },
+  SvgExample : {
+    name : "SvgExample",
+    component: () => {require("../containers/SvgExample")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码

@@ -22,7 +22,20 @@ export default class FirstPageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        // this.props.route.title = '首页'
+        this.props.route.title = '😋'
+
+        //这样也能写的
+        // this.props.route.rightElement = React.createElement(Text, [], ['Hello world'])
+
+        // this.props.route.rightElement = () => {
+        //   return (
+        //     <View style={{flex: 1}}>
+        //       <Text>asdfas</Text>
+        //     </View>
+        //   )
+        // }
+
+        this.props.route.rightElement = this.renderR
         // console.log('PagesConfig',PagesConfig);
     }
 
@@ -32,6 +45,13 @@ export default class FirstPageComponent extends Component {
       // this.props.dispatch(nav_initial(navigator, route))
     }
 
+    renderR() {
+      return (
+        <View style={{flex: 1}}>
+          <Text>asdfas</Text>
+        </View>
+      )
+    }
     _pressButton() {
       const { dispatch ,navigator} = this.props;
       // dispatch(navTo(PagesConfig.SecondPageComponent))
