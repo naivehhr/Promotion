@@ -33,6 +33,7 @@ import SecondPageComponent from './SecondPageComponent'
 import PageOne from './PageOne'
 import Test from './Test'
 import Test1 from './Test1'
+import Test2 from './Test2'
 
 //这样就得写4个navigator了
 export default class Go extends Component {
@@ -94,7 +95,19 @@ export default class Go extends Component {
        >
          <Test ref='Test' tabLabel={I18n.t('greeting')} {...this.props}/>
          <Test1 ref='Test1' tabLabel="嘟嘟嘟"  {...this.props}/>
+         <Test2 ref='Test2' tabLabel='天蓝蓝'  {...this.props}/>
        </ScrollableTabView>
+       <View style={{
+           zIndex: 2,
+           position: 'absolute',
+           top: 0,
+           bottom: 1000,
+           left: 0,
+           width: W,
+           height: H,
+           backgroundColor: 'rgba(0, 0, 0, 0.5)'
+         }}>
+       </View>
      </View>
     );
   }

@@ -10,4 +10,5 @@
 - 图表 => 70% 能画出个大概了，但是缺少动画
 - 手势密码组件源码解读 => 0%
 - ViewPage组件源码解读 => 0% https://github.com/zbtang/React-Native-ViewPager 这个和大牛们的很像啊
-- 自定义tabbarbtn
+- 自定义tabbarbtn (不能和navigationBar一起使用, 会有一个层级的覆盖)
+- 自定义modalalert？
