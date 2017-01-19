@@ -87,7 +87,7 @@ export default class Go extends Component {
        <ScrollableTabView
         tabBarPosition={'bottom'}
         locked={true}
-        initialPage={0}
+        initialPage={2}
         page={this.state._marBot}
         scrollWithoutAnimation={false}
         renderTabBar={() => <DefaultTabBar />}
@@ -97,17 +97,6 @@ export default class Go extends Component {
          <Test1 ref='Test1' tabLabel="嘟嘟嘟"  {...this.props}/>
          <Test2 ref='Test2' tabLabel='天蓝蓝'  {...this.props}/>
        </ScrollableTabView>
-       <View style={{
-           zIndex: 2,
-           position: 'absolute',
-           top: 0,
-           bottom: 1000,
-           left: 0,
-           width: W,
-           height: H,
-           backgroundColor: 'rgba(0, 0, 0, 0.5)'
-         }}>
-       </View>
      </View>
     );
   }

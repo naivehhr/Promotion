@@ -29,23 +29,55 @@ export default class ThreePage extends React.Component {
       modalVisible: false
     };
   }
+
+
+
+  componentWillMount(){
+    this._gestureHandlers = {
+      //外部正方形在“捕获期”阻止顶层view成为响应者
+      // onMoveShouldSetResponderCapture也会单独相应的
+      onStartShouldSetResponder: () => {
+
+        return true
+      },
+      onResponderRelease: () => {
+        this.setState({modalVisible: !this.state.modalVisible});
+      },
+    }
+  }
+
+
   _back() {
     console.log('back');
   }
   _pressButton = () => {
-    // this.setState({modalVisible: !this.state.modalVisible});
+    console.log('打开');
+    this.setState({modalVisible: !this.state.modalVisible});
   }
   setModalVisible(visible) {
+    console.log('主动关闭的');
     this.setState({modalVisible: visible});
   }
+
+  // <View style={{
+  //     zIndex: 2,
+  //     position: 'absolute',
+  //     bottom: 0,
+  //     left: 0,
+  //     width: W,
+  //     height: H,
+  //     backgroundColor: 'red',
+  //   }}>
+  // </View>
+
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{zIndex: 1, height: 50,  backgroundColor: 'green'}} >
+        <View style={{height: 50,  backgroundColor: 'green'}} >
           <TouchableOpacity
             onPress={this._pressButton}
             style={{marginTop: 15, flex: 1, alignItems:'flex-end', justifyContent: 'center',}}>
-            <Image style={{width: 20, height: 10}} source={require('./img/menu.png')}/>
+            <Image  style={{width: 20, height: 10}} source={require('./img/menu.png')}/>
           </TouchableOpacity>
         </View>
         <ScrollView style={{flex: 1, backgroundColor: 'yellow'}}>
@@ -53,14 +85,15 @@ export default class ThreePage extends React.Component {
         </ScrollView>
         <Modal
           animationType={"none"}
-          transparent={false}
+          transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => {this.setModalVisible(false)}}
+          onRequestClose={() => {alert("Modal has been closed.")}}
           >
-          <View style={{flex:1}}>
-           <View style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100}}>
+          <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)'}}
+            {...this._gestureHandlers}
+            >
+           <View style={{top: H /3,backgroundColor: 'red', alignItems: 'center', justifyContent: 'center', width: W, height: 100}}>
              <Text>Hello World!</Text>
-
              <TouchableHighlight onPress={() => {
                this.setModalVisible(!this.state.modalVisible)
              }}>
@@ -69,7 +102,7 @@ export default class ThreePage extends React.Component {
            </View>
           </View>
         </Modal>
-        
+
       </View>
     );
   }

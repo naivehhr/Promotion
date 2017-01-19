@@ -58,7 +58,6 @@ export default class FirstPageComponent extends Component {
     }
 
     pressButton = () => {
-      console.log('??>?!!!');
       this.setState({modalVisible: !this.state.modalVisible});
     }
     setModalVisible(visible) {
@@ -69,11 +68,7 @@ export default class FirstPageComponent extends Component {
       return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
           <View style={{zIndex: 100, height: 50,  backgroundColor: 'green'}} >
-            <TouchableOpacity
-              onPress={this.pressButton}
-              style={{marginTop: 15, flex: 1, alignItems:'flex-end', justifyContent: 'center',}}>
-              <Image style={{width: 20, height: 10}} source={require('./img/menu.png')}/>
-            </TouchableOpacity>
+
           </View>
 
         </View>
@@ -121,24 +116,6 @@ export default class FirstPageComponent extends Component {
                 <TouchableOpacity onPress={this._pressButton.bind(this)} >
                     <Text>FirstPageComponent 点我跳转</Text>
                 </TouchableOpacity>
-                <Modal
-                  animationType={"none"}
-                  transparent={false}
-                  visible={this.state.modalVisible}
-                  onRequestClose={() => {this.setModalVisible(false)}}
-                  >
-                  <View style={{flex:1}}>
-                   <View style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100}}>
-                     <Text>Hello World!</Text>
-
-                     <TouchableHighlight onPress={() => {
-                       this.setModalVisible(!this.state.modalVisible)
-                     }}>
-                       <Text>Hide Modal</Text>
-                     </TouchableHighlight>
-                   </View>
-                  </View>
-                </Modal>
             </ScrollView>
         );
     }
