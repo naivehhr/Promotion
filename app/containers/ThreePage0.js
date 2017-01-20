@@ -53,11 +53,6 @@ export default class ThreePage extends React.Component {
         this._close()
       },
     }
-    this.state.pan.addListener((v) => {
-      console.log(v);
-      // this._animatedView.
-      // this.
-    })
   }
 
 
@@ -66,14 +61,14 @@ export default class ThreePage extends React.Component {
   }
   _pressButton = () => {
     console.log('打开');
-    Animated.spring(
-      this.state.bounceValue,
-      {
-        toValue: 1,
-        friction: 10,
-        tension: 80
-      }
-    ).start()
+    // Animated.spring(
+    //   this.state.bounceValue,
+    //   {
+    //     toValue: 1,
+    //     friction: 10,
+    //     tension: 80
+    //   }
+    // ).start()
     // Animated.spring(
     //  this.state.pan,
     //  {
@@ -119,33 +114,19 @@ export default class ThreePage extends React.Component {
     //   {toValue: {x: 100, y: 50}}
     // ).start();
 
-    Animated.timing(this.state.opacity, {
-      toValue: 0,
-      duration: 10
-    }).start()
-    Animated.stagger(100,[
-      Animated.timing(
+    Animated.parallel([
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: 200
+      }),
+      Animated.spring(
         this.state.pan,
-        {
-          toValue: {x: 0, y: 0},
-          duration: 400
-        }
-      ),
-      Animated.timing(
-        this.state.bounceValue,
-        {
-          toValue: 0,
-          duration: 400
-        }
-      ),
-      // Animated.timing(this.state.opacity, {
-      //   toValue: 0,
-      //   duration: 10
-      // }),
+        {toValue: {x: 0, y: 0}}
+      )
     ]).start()
 
     setTimeout(() => {
-      // this.setState({modalVisible: !this.state.modalVisible});
+      this.setState({modalVisible: !this.state.modalVisible});
     }, 220)
   }
 
@@ -172,14 +153,9 @@ export default class ThreePage extends React.Component {
             {...this._gestureHandlers}
             >
            <View style={styles.container1}>
-             <Animated.View
-               ref={ component => this._animatedView = component }
-               style={[styles.children, {
+             <Animated.View style={[styles.children, {
                  width: this.state.pan.x,
                  height: this.state.pan.y,
-                 transform: [
-                   {scale: this.state.bounceValue},
-                 ]
                }]}>
                <TouchableHighlight onPress={() => {
                  this.setModalVisible()
@@ -190,6 +166,7 @@ export default class ThreePage extends React.Component {
            </View>
           </View>
         </Modal>
+
       </View>
     );
   }
@@ -213,7 +190,7 @@ const styles = StyleSheet.create({
   children: {
     alignItems: 'center',
     justifyContent: 'center',
-    width:80,
+    width:100,
     height: 20,
     backgroundColor: 'red',
     borderRadius: 10,
