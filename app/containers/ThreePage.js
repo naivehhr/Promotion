@@ -28,8 +28,8 @@ export default class ThreePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
-      bounceValue: new Animated.Value(0),
+      modalVisible: true,
+      bounceValue: new Animated.Value(1),
       opacity: new Animated.Value(1),
       pan: new Animated.ValueXY(),
 
@@ -53,7 +53,7 @@ export default class ThreePage extends React.Component {
         this._close()
       },
     }
-    this.state.pan.addListener((v) => {
+    this.state.bounceValue.addListener((v) => {
       console.log(v);
       // this._animatedView.
       // this.
@@ -74,6 +74,7 @@ export default class ThreePage extends React.Component {
         tension: 80
       }
     ).start()
+
     // Animated.spring(
     //  this.state.pan,
     //  {
@@ -84,18 +85,19 @@ export default class ThreePage extends React.Component {
     // ).start();
 
     Animated.parallel([
-      Animated.timing(this.state.opacity, {
-        toValue: 1,
-        duration: 200
-      }),
-      Animated.spring(
-       this.state.pan,
-       {
-         toValue: {x: W - 20, y: 80},
-         friction: 10,
-         tension: 80
-       }
-      )
+      // Animated.timing(this.state.opacity, {
+      //   toValue: 1,
+      //   duration: 200
+      // }),
+
+      // Animated.spring(
+      //  this.state.pan,
+      //  {
+      //    toValue: {x: W - 20, y: 80},
+      //    friction: 10,
+      //    tension: 80
+      //  }
+      // )
     ]).start()
     this.setState({modalVisible: !this.state.modalVisible});
   }
@@ -105,47 +107,48 @@ export default class ThreePage extends React.Component {
   }
 
   _close() {
-    // Animated.spring(
-    //   this.state.bounceValue,
-    //   {
-    //     toValue: 0,
-    //     friction: 10,
-    //     tension: 80
-    //   }
-    // ).start()
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: 0,
+        friction: 10,
+        tension: 80
+      }
+    ).start()
 
     // Animated.spring(
     //   this.state.pan,
     //   {toValue: {x: 100, y: 50}}
     // ).start();
 
-    Animated.timing(this.state.opacity, {
-      toValue: 0,
-      duration: 10
-    }).start()
-    Animated.stagger(100,[
-      Animated.timing(
-        this.state.pan,
-        {
-          toValue: {x: 0, y: 0},
-          duration: 400
-        }
-      ),
-      Animated.timing(
-        this.state.bounceValue,
-        {
-          toValue: 0,
-          duration: 400
-        }
-      ),
-      // Animated.timing(this.state.opacity, {
-      //   toValue: 0,
-      //   duration: 10
-      // }),
-    ]).start()
+    // Animated.timing(this.state.opacity, {
+    //   toValue: 0,
+    //   duration: 10
+    // }).start()
+
+    // Animated.stagger(100,[
+    //   // Animated.timing(
+    //   //   this.state.pan,
+    //   //   {
+    //   //     toValue: {x: 0, y: 0},
+    //   //     duration: 400
+    //   //   }
+    //   // ),
+    //   Animated.timing(
+    //     this.state.bounceValue,
+    //     {
+    //       toValue: 0,
+    //       duration: 400
+    //     }
+    //   ),
+    //   // Animated.timing(this.state.opacity, {
+    //   //   toValue: 0,
+    //   //   duration: 10
+    //   // }),
+    // ]).start()
 
     setTimeout(() => {
-      // this.setState({modalVisible: !this.state.modalVisible});
+      this.setState({modalVisible: !this.state.modalVisible});
     }, 220)
   }
 
@@ -175,15 +178,20 @@ export default class ThreePage extends React.Component {
              <Animated.View
                ref={ component => this._animatedView = component }
                style={[styles.children, {
-                 width: this.state.pan.x,
-                 height: this.state.pan.y,
+                 marginLeft: 0,
                  transform: [
                    {scale: this.state.bounceValue},
                  ]
                }]}>
                <TouchableHighlight onPress={() => {
                  this.setModalVisible()
-               }}>
+               }}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width:100,height:100,
+                  backgroundColor: 'transparent'}}
+               >
                <Text>关闭关闭关闭关闭关闭关闭关闭</Text>
                </TouchableHighlight>
              </Animated.View>
@@ -205,16 +213,11 @@ const styles = StyleSheet.create({
     marginRight: -10,
     top: H /3,
     backgroundColor: 'white',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
     width: W,
-    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   children: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width:80,
-    height: 20,
     backgroundColor: 'red',
     borderRadius: 10,
   },
