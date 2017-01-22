@@ -28,7 +28,7 @@ export default class ThreePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: true,
+      modalVisible: false,
       bounceValue: new Animated.Value(1),
       opacity: new Animated.Value(1),
       pan: new Animated.ValueXY(),
@@ -66,14 +66,13 @@ export default class ThreePage extends React.Component {
   }
   _pressButton = () => {
     console.log('打开');
-    Animated.spring(
-      this.state.bounceValue,
-      {
-        toValue: 1,
-        friction: 10,
-        tension: 80
-      }
-    ).start()
+    // Animated.timing(
+    //   this.state.bounceValue,
+    //   {
+    //     toValue: 1,
+    //     duration: 100
+    //   }
+    // ).start()
 
     // Animated.spring(
     //  this.state.pan,
@@ -84,20 +83,39 @@ export default class ThreePage extends React.Component {
     //  }
     // ).start();
 
-    Animated.parallel([
-      // Animated.timing(this.state.opacity, {
-      //   toValue: 1,
-      //   duration: 200
-      // }),
 
-      // Animated.spring(
-      //  this.state.pan,
-      //  {
-      //    toValue: {x: W - 20, y: 80},
-      //    friction: 10,
-      //    tension: 80
-      //  }
-      // )
+    // Animated.timing(
+    //  this.state.pan,
+    //  {
+    //    toValue: {x: W - 20, y: 80},
+    //    duration: 100
+    //  }
+    // ).start();
+
+    // Animated.timing(this.state.opacity, {
+    //   toValue: 1,
+    //   duration: 200
+    // }).start();
+    Animated.parallel([
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: 200
+      }),
+      Animated.spring(
+       this.state.pan,
+       {
+         toValue: {x: W - 20, y: 80},
+         friction: 10,
+         tension: 80
+       }
+     ),
+     Animated.timing(
+       this.state.bounceValue,
+       {
+         toValue: 1,
+         duration: 100
+       }
+     )
     ]).start()
     this.setState({modalVisible: !this.state.modalVisible});
   }
@@ -107,14 +125,14 @@ export default class ThreePage extends React.Component {
   }
 
   _close() {
-    Animated.spring(
-      this.state.bounceValue,
-      {
-        toValue: 0,
-        friction: 10,
-        tension: 80
-      }
-    ).start()
+    // Animated.spring(
+    //   this.state.bounceValue,
+    //   {
+    //     toValue: 0,
+    //     friction: 10,
+    //     tension: 80
+    //   }
+    // ).start()
 
     // Animated.spring(
     //   this.state.pan,
@@ -126,26 +144,26 @@ export default class ThreePage extends React.Component {
     //   duration: 10
     // }).start()
 
-    // Animated.stagger(100,[
-    //   // Animated.timing(
-    //   //   this.state.pan,
-    //   //   {
-    //   //     toValue: {x: 0, y: 0},
-    //   //     duration: 400
-    //   //   }
-    //   // ),
-    //   Animated.timing(
-    //     this.state.bounceValue,
-    //     {
-    //       toValue: 0,
-    //       duration: 400
-    //     }
-    //   ),
-    //   // Animated.timing(this.state.opacity, {
-    //   //   toValue: 0,
-    //   //   duration: 10
-    //   // }),
-    // ]).start()
+    Animated.parallel([
+      Animated.timing(
+        this.state.pan,
+        {
+          toValue: {x: 0, y: 0},
+          duration: 100
+        }
+      ),
+      Animated.timing(
+        this.state.bounceValue,
+        {
+          toValue: 0,
+          duration: 100
+        }
+      ),
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: 100
+      }),
+    ]).start()
 
     setTimeout(() => {
       this.setState({modalVisible: !this.state.modalVisible});
@@ -175,15 +193,19 @@ export default class ThreePage extends React.Component {
             {...this._gestureHandlers}
             >
            <View style={styles.container1}>
-             <Animated.View
+             <Animated.Image
+               resizeMode={'stretch'}
+               source={require('./img/对话框实心.png')}
                ref={ component => this._animatedView = component }
                style={[styles.children, {
-                 marginLeft: 0,
+                 opacity: this.state.opacity,
+                 width: this.state.pan.x,
+                 height: this.state.pan.y,
                  transform: [
                    {scale: this.state.bounceValue},
                  ]
                }]}>
-               <TouchableHighlight onPress={() => {
+               <TouchableOpacity onPress={() => {
                  this.setModalVisible()
                }}
                 style={{
@@ -193,8 +215,8 @@ export default class ThreePage extends React.Component {
                   backgroundColor: 'transparent'}}
                >
                <Text>关闭关闭关闭关闭关闭关闭关闭</Text>
-               </TouchableHighlight>
-             </Animated.View>
+               </TouchableOpacity>
+             </Animated.Image>
            </View>
           </View>
         </Modal>
@@ -210,21 +232,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
   container1: {
-    marginRight: -10,
-    top: H /3,
-    backgroundColor: 'white',
+    top: 50,
+    backgroundColor: 'transparent',
     width: W,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   },
   children: {
-    backgroundColor: 'red',
-    borderRadius: 10,
   },
   triangle: {
     position: 'absolute',
-    top: 80,
-    right: 15,
+    top: -6,
+    right: 10,
     backgroundColor: 'transparent',
     borderStyle: 'solid',
     borderLeftWidth: 10,
@@ -234,7 +253,6 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderBottomColor: 'yellow',
     transform: [
-      {rotate: '180deg'}
     ]
   }
 });
