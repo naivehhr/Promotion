@@ -87,7 +87,7 @@ export default class Go extends Component {
        <ScrollableTabView
         tabBarPosition={'bottom'}
         locked={true}
-        initialPage={2}
+        initialPage={0}
         page={this.state._marBot}
         scrollWithoutAnimation={false}
         renderTabBar={() => <DefaultTabBar />}
