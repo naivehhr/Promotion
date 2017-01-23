@@ -34,7 +34,8 @@ import SvgExample from './containers/SvgExample'
 import SvgAnimated from './containers/SvgAnimated'
 import MovingHand from './containers/MovingHand'
 import ListVVV from './containers/ListVVV'
-
+import PasswordGestureTest from './containers/PasswordGestureTest'
+import WebViewView from './containers/WebViewView'
 
 
 import PllToRefreshScrollView from './containers/refreshlistview/react-native-smart-pull-to-refresh-listview-demo'
@@ -62,7 +63,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Go />
+        <WebViewView />
       </Provider>
     )
   }

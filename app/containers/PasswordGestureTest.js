@@ -65,7 +65,11 @@ class PasswordGestureTest extends Component {
         message={this.state.message}
         onStart={() => this.onStart()}
         onEnd={(password) => this.onEnd(password)}
-      />
+      >
+      <View style={{height: 100, backgroundColor: 'yellow'}}>
+
+      </View>
+      </PasswordGesture>
     );
   }
 }
