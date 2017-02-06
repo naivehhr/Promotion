@@ -41,6 +41,9 @@ class Dk extends Component {
   _pressButton(key) {
     const { nav, route, dispatch, navigator} = this.props
     switch (key) {
+      case 'ScrollTestView':
+        dispatch(navTo(PagesConfig.ScrollTestView))
+        break;
       case 'Curve':
         dispatch(navTo(PagesConfig.SvgExample))
         break;
@@ -99,6 +102,9 @@ class Dk extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'AnimationNumber')}>
             <Text>AnimationNumber</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'ScrollTestView')}>
+            <Text>ScrollTextView</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.item} activeOpacity={0.8} onPress={this._pressButton.bind(this, 'Curve')}>
             <Text>Curve</Text>

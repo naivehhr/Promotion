@@ -91,6 +91,10 @@ const confs =   {
     name : "SvgExample",
     component: () => {require("../containers/SvgExample")}
   },
+  ScrollTestView : {
+    name : "ScrollTestView",
+    component: () => {require("../containers/ScrollTestView")}
+  },
 }
 // confs.initial = confs.Home
 // 验证手势密码

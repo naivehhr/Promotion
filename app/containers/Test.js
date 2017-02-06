@@ -40,6 +40,7 @@ import PullView from './PullView'
 import PullToRefreshView from './PullToRefreshView'
 import AnimationNumber from './AnimationNumber'
 import SvgExample from './SvgExample'
+import ScrollTestView from './ScrollTestView'
 class Test extends Component {
 
   renderScene( route, nav ) {
@@ -54,6 +55,8 @@ class Test extends Component {
       }
     })
     switch (route.name) {
+      case 'ScrollTestView':
+        return <ScrollTestView route={route} navigator={ nav }  />;
       case 'SvgExample':
         return <SvgExample route={route} navigator={ nav }  />;
       case 'AnimationNumber':

@@ -50,6 +50,7 @@ class WebViewView extends Component {
   }
 
   renderLoading = () => {
+    
     return (
       <View style={{flex: 1, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
         <Text>加载ing</Text>
