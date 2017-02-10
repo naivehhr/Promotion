@@ -14,6 +14,7 @@ import {
   Easing
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Reactotron from 'reactotron-react-native'
 //表示写的差不多了呢
 class AnimationNumber extends Component {
   constructor() {
@@ -33,6 +34,26 @@ class AnimationNumber extends Component {
   }
 
   componentDidMount() {
+Reactotron.log('hello rendering world111')
+    this.startTimer()
+    this.a()
+    //requestAnimationFrame // 这个东西不是很好用啊，用Animated就够了
+  }
+
+  componentDidUpdate(){
+    // this.startTimer();
+    // !this.looper && this.a();
+  }
+
+  a = () => {
+    // debugger
+    console.log('aaa');
+    // this.looper = requestAnimationFrame(this.a);
+  }
+  componentWillUnmount(){
+     this.endTimer();
+   }
+  startTimer = () => {
     if(!this.arr) return
     let l = this.arr.length
     let i = 0
@@ -58,6 +79,11 @@ class AnimationNumber extends Component {
  // componentDidMount = () => {
  //
  // }
+
+ endTimer = ()=>{
+    this.looper && cancelAnimationFrame(this.looptimer);
+    this.looper = null;
+  }
 
   doAnimated = () => {
 

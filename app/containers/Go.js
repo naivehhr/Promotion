@@ -44,6 +44,8 @@ export default class Go extends Component {
       _top: -20,
       showStatusBar: false
     }
+
+    console.log('scale=', o.scale);
     // this.timer = setTimeout(() => {
     //   this.setState({_top: 0, showStatusBar: true})
     // },2000)

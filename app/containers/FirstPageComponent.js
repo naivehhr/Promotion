@@ -253,7 +253,7 @@ export default class FirstPageComponent extends Component {
                           width:100,height:100,
                           backgroundColor: 'transparent'}}
                        >
-                       <Text>关闭关闭关闭关闭关闭关闭关闭</Text>
+                       <Text>关闭1</Text>
                        </TouchableOpacity>
                      </Animated.Image>
                    </View>

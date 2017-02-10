@@ -32,10 +32,34 @@ class Dk extends Component {
     console.log('加载','dk');
     const { navigator, route } = this.props
     this.props.dispatch(nav_initial(navigator, route))
+    this.currentRoute = navigator.navigationContext.currentRoute;
+    // console.log(this.currentRoute);
+    this.bindEvents();
   }
 
   componentWillUnmount() {
     console.log('卸载','dk');
+    this.unBindEvents();
+  }
+
+  bindEvents = () =>{
+    this.willFocusSubscription  = this.props.navigator.navigationContext.addListener('willfocus', (event) => {
+      if (this.currentRoute !== event.data.route) {
+        console.log('离开Dk');
+        this.props.dispatch(hide())
+      }
+    });
+    this.didFocusSubscription  = this.props.navigator.navigationContext.addListener('didfocus', (event) => {
+      if (this.currentRoute === event.data.route) {
+        console.log('回到Dk');
+        // this.props.dispatch(show())
+      }
+    });
+  }
+
+  unBindEvents = ()=>{
+    this.willFocusSubscription.remove();
+    this.didFocusSubscription.remove();
   }
 
   _pressButton(key) {

@@ -6,10 +6,16 @@ export const navTo = (to, from) => {
     // if(!tabbar.show) {
     //   this.props.dispatch(show())
     // }
-    const currentRoute = nav.navigator.getCurrentRoutes().pop()
-    if(currentRoute.name == 'Dk' && to.name !== 'Dk') {
-      dispatch(hide())
-    }
+
+
+
+    // NOTE: 自己控制的方式
+    // const currentRoute = nav.navigator.getCurrentRoutes().pop()
+    // if(currentRoute.name == 'Dk' && to.name !== 'Dk') {
+    //   dispatch(hide())
+    // }
+
+
     nav.navigator.push({
       name: to.name,
       component: to.Component,

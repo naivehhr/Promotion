@@ -44,16 +44,20 @@ import ScrollTestView from './ScrollTestView'
 class Test extends Component {
 
   renderScene( route, nav ) {
-    setTimeout(() => {
-      const currentRoute = nav.getCurrentRoutes().pop()
-      console.log(currentRoute.name);
-      if(currentRoute.name == 'Dk'){
-        !this.props.tabbar.show && this.props.dispatch(show())
-      } else {
-        // 隐藏应该提前 在navTo中完成
-        // this.props.tabbar.show && this.props.dispatch(hide())
-      }
-    })
+
+
+
+    // // NOTE: setTimeout 是为了不同时出发多次render 现在移动到左侧返回键中处理了
+    // setTimeout(() => {
+    //   const currentRoute = nav.getCurrentRoutes().pop()
+    //   console.log(currentRoute.name);
+    //   if(currentRoute.name == 'Dk'){
+    //     // !this.props.tabbar.show && this.props.dispatch(show())
+    //   } else {
+    //     // 隐藏应该提前 在navTo中完成
+    //     // this.props.tabbar.show && this.props.dispatch(hide())
+    //   }
+    // }, 0)
     switch (route.name) {
       case 'ScrollTestView':
         return <ScrollTestView route={route} navigator={ nav }  />;
@@ -132,6 +136,7 @@ const NavigationBarRouteMapper = props => (
   {
 
     LeftButton( route, navigator, index, navState ){
+
       if (index === 0) {
         return null;
       }
@@ -140,10 +145,10 @@ const NavigationBarRouteMapper = props => (
           route.leftBtn.onClick()
         } else {
           const previousRoute = navState.routeStack[index - 1];
-          if(previousRoute.name == 'Home'){
+          if(previousRoute.name == 'Dk'){
             setTimeout(() => {
-              // props.dispatch(show())
-            }, 200)
+              props.dispatch(show())
+            }, 0)
           }
           navigator.pop()
         }
@@ -154,7 +159,7 @@ const NavigationBarRouteMapper = props => (
           style={{flex:1, alignItems: 'center', justifyContent: 'center', width: 50}}
           >
           <Text >
-            {route.leftBtn && route.leftBtn.text || previousRoute.title}
+            {route.leftBtn || previousRoute.title}
           </Text>
         </TouchableOpacity>
       );

@@ -63,6 +63,7 @@ class Calendar extends Component {
   componentWillMount() {
     //为啥构造函数中拿不到props
     if(this.props.route){
+      this.props.route.leftBtn = '返回首页'
       this.props.route.title = '日历';
     }
     this._panResponder = PanResponder.create({

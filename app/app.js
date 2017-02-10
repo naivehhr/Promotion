@@ -37,6 +37,9 @@ import MovingHand from './containers/MovingHand'
 import ListVVV from './containers/ListVVV'
 import PasswordGestureTest from './containers/PasswordGestureTest'
 import WebViewView from './containers/WebViewView'
+import TransprentView from './containers/TransprentView'
+
+import LottieAnimatedExample from './containers/lottieanimated/LottieAnimatedExample'
 
 
 import PllToRefreshScrollView from './containers/refreshlistview/react-native-smart-pull-to-refresh-listview-demo'
@@ -48,8 +51,8 @@ import StickyHeaderAndroidPullToRefreshDemo from './containers/refreshlistview/s
 import ScrollableTabViewPullToRefreshDemo from './containers/refreshlistview/use-with-react-native-scrollable-tab-view'
 
 import ConfigureStore from './store/configureStore'
-const store = ConfigureStore()
 
+const store = ConfigureStore()
 
 export default class App extends Component {
   constructor(){
@@ -60,6 +63,14 @@ export default class App extends Component {
   }
   componentDidMount() {
     SplashScreen.close(SplashScreen.animationType.scale, 850, 2000)
+    this.unsubscribeStore = store.subscribe(() =>{
+      //3. getState
+      console.log('订阅的state', store.getState());
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeStore()
   }
   render() {
     return (
