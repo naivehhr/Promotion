@@ -39,7 +39,6 @@ import PasswordGestureTest from './containers/PasswordGestureTest'
 import WebViewView from './containers/WebViewView'
 import TransprentView from './containers/TransprentView'
 
-import LottieAnimatedExample from './containers/lottieanimated/LottieAnimatedExample'
 
 
 import PllToRefreshScrollView from './containers/refreshlistview/react-native-smart-pull-to-refresh-listview-demo'
