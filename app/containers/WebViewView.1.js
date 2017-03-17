@@ -32,6 +32,7 @@ class WebViewView extends Component {
       // appendExt : 'png'
       // by adding this option, the temp files will have a file extension
     })
+    //http://fupingzhou.firstp2plocal.com:8104/api/file/show?path=g1/M00/7A/87/ChRFCVjI-W-APm_hAAHqoyXcxoY2103312
     .fetch('GET', 'http://10.12.116.40:3000/', {
     // more headers  ..
         })

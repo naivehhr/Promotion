@@ -61,6 +61,8 @@ export default class App extends Component {
     }
   }
   componentDidMount() {
+    const ProcessInfo = require('NativeModules').ProcessInfo;
+    console.log('ProcessInfo', ProcessInfo);
     SplashScreen.close(SplashScreen.animationType.scale, 850, 2000)
     this.unsubscribeStore = store.subscribe(() =>{
       //3. getState
@@ -74,7 +76,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Go />
+        <WebViewView />
       </Provider>
     )
   }
