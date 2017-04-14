@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':my-rn-library')
     compile project(':react-native-pdf-view')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-svg')

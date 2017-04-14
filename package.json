@@ -7,7 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "aran_mylog": "^1.0.2",
     "moment": "^2.17.1",
+    "my-rn-library": "^3.0.2",
     "react": "15.4.1",
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "0.39.0",
@@ -17,6 +19,7 @@
     "react-native-calendar-picker": "^3.0.0",
     "react-native-chart": "^1.0.8-beta",
     "react-native-context-menu-strip": "0.0.2",
+    "react-native-device-info": "^0.10.1",
     "react-native-gesture-password": "^0.2.0",
     "react-native-hamburger": "0.0.2",
     "react-native-i18n": "^0.1.1",

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
+import com.example.my_rn_library.AndroidToastPackage;
 import com.facebook.react.ReactApplication;
 import com.keyee.pdfview.PDFView;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+              new AndroidToastPackage(),
             new PDFView(),
             new RNFetchBlobPackage(),
             new RNSvgPackage(),

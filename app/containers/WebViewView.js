@@ -13,17 +13,30 @@ import {
   Easing,
   TouchableOpacity,
   Alert,
-  WebView
+  WebView,
+  NativeModules
 } from 'react-native';
-
-
+// const MyToast = NativeModules.ToastForAndroid
+// const MyLog = NativeModules.MyLog
+import MyLog from 'aran_mylog'
+// import MyToast from 'my-rn-library'
+// const MyToast = require('my-rn-library')
 class WebViewView extends Component {
   constructor() {
     super()
     this.state = {
+      url: 'http://www.qq.com'
     }
   }
-
+componentDidMount () {
+    if(Platform.OS == 'android') {
+      console.log('-----start android-----');
+      // MyToast.show('点击了！', MyToast.SHORT)
+    } else if(Platform.OS == 'ios') {
+      console.log('-----start ios-----');
+      // MyLog.myLog('123')
+    }
+  }
   onError = () => {
     console.log('onError');
   }
@@ -50,7 +63,7 @@ class WebViewView extends Component {
   }
 
   renderLoading = () => {
-    
+
     return (
       <View style={{flex: 1, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
         <Text>加载ing</Text>
@@ -63,11 +76,15 @@ class WebViewView extends Component {
       <WebView
         automaticallyAdjustContentInsets={true}
         style={{flex: 1,}}
-        source={{uri: 'https://www.baidu.com'}}
+        source={{
+          uri: this.state.url,
+        }}
+        injectedJavaScript={'document.cookie = "cookies=123abc"'}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         decelerationRate="normal"
         startInLoadingState={true}
+        onMessage={(e)=> {console.log(e.d)}}
         onError={this.onError}
         onLoad={this.onLoad}
         onLoadEnd={this.onLoadEnd}
